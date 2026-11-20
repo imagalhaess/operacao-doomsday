@@ -15,6 +15,10 @@ export function getStats(): GlobalStats {
   return { total, watched, skipped, partial, pending, complete, percent };
 }
 
+export function getPlayerLevel(watched = getStats().watched): number {
+  return Math.floor(watched / 5) + 1;
+}
+
 export function getTrackStats(trackId: string): TrackStats {
   const t = tracks.find((tr) => tr.id === trackId);
   if (!t) return { total: 0, watched: 0, skipped: 0, pending: 0, percent: 0 };

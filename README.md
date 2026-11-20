@@ -1,155 +1,148 @@
-# 🛡️ Operação Doomsday
+![Operação Doomsday — uma jornada Marvel em 8-bit](docs/assets/readme-banner.svg)
 
-Painel pessoal de comando para planejar, acompanhar e conectar todas as produções cinematográficas e televisivas rumo a **Avengers: Doomsday (2026)**.
+# Operação Doomsday
 
-Uma Single Page Application (SPA) progressiva (PWA), rápida, offline-first e com armazenamento local criptografado no navegador.
+**Sua maratona Marvel, uma missão por vez.** Organize filmes e séries, acompanhe seu progresso e percorra oito trilhas narrativas rumo a *Avengers: Doomsday*.
 
----
+`8 TRILHAS` · `12 PERSONAGENS` · `MODO SOLO + DUPLA` · `PROGRESSO LOCAL`
 
-## ✨ Recursos
+[Iniciar](#executar-localmente) · [Novidades](#novidades) · [Histórico de alterações](CHANGELOG.md) · [Contribuir](CONTRIBUTING.md) · [Reportar problema](https://github.com/imagalhaess/operacao-doomsday/issues/new/choose)
 
-- **Trilha Visual & Caminho da Missão**: Mapa visual e dinâmico conectando as 8 trilhas narrativas com conduítes energéticos e emblemas animados dedicados para cada filme (Reator Arc, Escudo, Mjolnir, Olho de Agamotto, Garras de Vibranium, Teia, etc.).
-- **Gamificação & Seleção de Heróis**: Escolha entre 12 heróis e vilões em um seletor com rolagem, sprites 8-bit e token com nome flutuante na posição atual da trilha.
-- **Tipografia Retrô**: Títulos e interface em Press Start 2P/Silkscreen; textos de leitura em DM Mono.
-- **Identidade Pixel Art da Trilha**: Reator Arc, favicon pixelado e HUD de herói/nível/XP aparecem somente em “Trilhas (8-Bit)”. O cursor MCU usa núcleo azul e luva repulsora em todas as telas: pixelado na trilha e convencional nas demais. Ele é desenhado na página para aparecer também em prévias que não exibem o cursor nativo. Campos de texto e dispositivos de toque mantêm o comportamento nativo.
-- **Som 8-bit**: Clique em “Ativar som” no cabeçalho de qualquer tela para liberar efeitos de hover, foco por teclado, clique e conquistas. A preferência fica salva; ao retornar, o navegador exige uma primeira interação para liberar áudio novamente. “Som ligado” desativa imediatamente todos os efeitos. Os sons são sintetizados localmente com Web Audio, sem downloads ou música de fundo.
-- **Maratona em Dupla (Live P2P Sync)**: Conecte-se em tempo real com seu parceiro via WebRTC descentralizado por código de sala (sem cadastro nem servidor intermediário). Os dois acompanham a posição um do outro na trilha com tokens visuais e comparativo de distância.
-- **Ações Rápidas Responsivas & Desfazer (Toggle)**: Use “Já assisti” ou “Li o resumo” nos cards e na trilha. No dossiê, também há “Vi uma parte” e “Pendente”; clicar no estado ativo reverte para pendente.
-- **Feedback Tátil HUD**: Pulso de energia Arc Reactor e varredura holográfica nos cards ao registrar filmes, sem sobrecarregar a tela.
-- **Dossiês Operacionais**: Resumo para caso não queira assistir, pontos cruciais a lembrar, conexões imediatas e links oficiais verificados.
-- **Assistir agora**: Botão nos cards, na trilha e no dossiê que abre a página oficial de cada produção no Disney+, sem passar pela busca. São 77 títulos com links catalogados; Doomsday não oferece reprodução enquanto o filme completo não estiver disponível. Séries abrem a página da produção, onde você seleciona a temporada. Requer internet e pode exigir login e assinatura; disponibilidade varia por região.
-- **PWA & Offline-First**: Instale como aplicativo nativo no celular ou desktop; funciona 100% offline via Service Worker.
-- **Posters Oficiais TMDB**: Identificação visual com iniciais e ano como fallback durante o carregamento ou quando uma imagem não está disponível. O tratamento de falha não depende de scripts inline; imagens externas não passam pelo cache do Service Worker.
-- **Salvar e Restaurar Progresso**: “Salvar progresso” baixa um arquivo JSON com títulos assistidos, notas e avaliações. “Restaurar progresso” abre esse arquivo e substitui os dados atuais, sem contas ou servidores de terceiros.
-- **Marvel Wrapped**: Relatório contextual para cada trilha concluída, destacando sua preparação para o próximo arco narrativo.
-- **Guia de Conceitos**: Glossário interativo (Incursões, AVT, Joias do Infinito, Variantes, etc.) com links cruzados para os filmes onde são explorados.
-- **Easter Eggs Temáticos**: Animações temáticas sob marcos de progresso (Thanos Snap nos 50%, Mjolnir Thunder ao fechar trilha, intervenções de Deadpool e código Konami).
+> **PRESS START** — Escolha uma produção, abra o dossiê ou use **Assistir agora** para acessar sua página oficial no Disney+. O aplicativo acompanha sua jornada; a reprodução acontece no serviço de streaming.
 
----
+## Novidades
 
-## 🔒 Segurança & STRIDE Threat Model
+As alterações integradas à `master` em **20/11/2026** estão registradas no [histórico de alterações](CHANGELOG.md#2026-11-20).
 
-A aplicação foi projetada e auditada com base no modelo de ameaças **STRIDE**:
+| Área | O que mudou |
+| --- | --- |
+| Assistir agora | Links diretos oficiais em cards, trilhas e dossiês. São 77 entradas catalogadas, sem busca ou identificadores inventados. |
+| Trilha 8-bit | Seleção dos 12 personagens, token na posição atual, nome flutuante e HUD de herói/nível/XP exclusivo dessa tela. |
+| Identidade visual | Marca convencional nas demais telas; Reator Arc e favicon pixelados na trilha. Tipografia retrô sem Inter. |
+| Som e cursor | Efeitos de hover, foco por teclado, clique e conquistas, com vinheta exclusiva ao subir de nível; cursor MCU convencional ou pixelado conforme a tela. |
+| Estados | **Já assisti**, **Li o resumo**, **Vi uma parte** e **Pendente**. Selecionar o estado ativo volta para pendente. |
+| Progresso | **Salvar progresso** baixa um arquivo; **Restaurar progresso** abre esse arquivo e substitui os dados atuais. |
+| Confiabilidade | Pôsteres com fallback de iniciais/ano, atualização do cache e cabeçalho responsivo sem cortar os controles. |
 
-| Categoria | Risco Mapeado | Mitigação Implementada |
-|---|---|---|
-| **Spoofing** | Falsificação de identidade ou sessão | App totalmente client-side sem cookies de sessão vulneráveis; rotas são puramente conveniência de interface |
-| **Tampering** | Injeção de script (XSS) e manipulação | Sanitização de strings com função `escapeHtml()`; Content Security Policy (CSP) estrito e `X-Content-Type-Options: nosniff` |
-| **Repudiation** | Desautorização de ações locais | O estado é de posse exclusiva do usuário no `localStorage`, com auditoria através de payloads exportáveis |
-| **Information Disclosure** | Vazamento de credenciais ou código | `build.sourcemap: false` no Vite; sem variáveis de ambiente com segredos no bundle; dev server fixado em `localhost` |
-| **Denial of Service** | Sobrecarga de memória | Code-splitting nativo no Vite; sem bibliotecas pesadas de terceiros; rendering DOM granular |
-| **Elevation of Privilege** | Elevação de privilégios | Arquitetura plana de permissões; dados isolados no domínio de origem do navegador |
+## Escolha seu modo
 
----
+| Tela | Para que serve |
+| --- | --- |
+| Dashboard | Consultar o panorama da maratona e o próximo título recomendado. |
+| Minha maratona | Pesquisar, filtrar e registrar o estado de cada produção. |
+| Trilhas (8-Bit) | Percorrer o mapa com seu personagem, consultar o HUD e acessar o modo em dupla. |
+| Marvel Wrapped | Consultar a retrospectiva de progresso das trilhas. |
+| Guia de conexões | Entender conceitos e conexões entre produções. |
+| Meu histórico | Revisitar os títulos registrados. |
 
-## 🛠️ Stack Tecnológico
+Os dossiês incluem resumos com **spoilers**, fatos importantes e conexões narrativas.
 
-- **Vite 8**: Build tool e dev server de alta performance
-- **TypeScript 5**: Tipagem estática rigorosa para todo o modelo de dados
-- **Tailwind CSS v4 & daisyUI 5**: Sistema de design utilitário com tokens customizados
-- **Vanilla ES Modules**: Arquitetura modular sem overhead de frameworks reativos pesados
-- **Service Worker API**: Cache de assets para funcionamento offline
+**Som:** clique em **Ativar som**, no cabeçalho de qualquer tela. Ao voltar ao aplicativo, o navegador pode exigir uma primeira interação para liberar a reprodução. O botão **Som ligado** desativa os efeitos. Não há música de fundo.
 
----
+**Subida de nível:** a cada cinco produções marcadas como **Já assisti** (500 XP), você ganha um nível e recebe um aviso. Com o som ativado, toca uma vinheta 8-bit original de aproximadamente um segundo. Recarregar, navegar ou restaurar um backup não repete a comemoração; desfazer um título pode reduzir o nível, e alcançar o limiar novamente comemora a nova subida. Não usamos gravações ou trilhas sonoras dos filmes.
 
-## 📁 Estrutura de Pastas
+**Cursor:** no desktop, a luva repulsora identifica controles interativos. A versão pixelada aparece na trilha; as demais telas usam a versão convencional. Campos de texto e dispositivos de toque mantêm o comportamento nativo. O cursor do sistema operacional não é alterado.
 
-```
-operacao-doomsday/
-├── public/                 # Assets estáticos servidos na raiz (PWA, icons, robots)
-│   ├── icon.svg
-│   ├── manifest.json
-│   ├── robots.txt
-│   ├── sitemap.xml
-│   └── sw.js
-├── src/
-│   ├── components/         # Componentes modulares da interface
-│   │   ├── dashboard.ts
-│   │   ├── detail-drawer.ts
-│   │   ├── guide.ts
-│   │   ├── history.ts
-│   │   ├── marathon.ts
-│   │   ├── poster.ts
-│   │   ├── shell.ts
-│   │   ├── toast.ts
-│   │   ├── tracks.ts
-│   │   └── wrapped.ts
-│   ├── data/               # Catálogo de dados, resumos e links
-│   │   ├── concepts.ts
-│   │   ├── links.ts
-│   │   ├── summaries.ts
-│   │   ├── tracks.ts
-│   │   └── types.ts
-│   ├── easter-eggs/        # Micro-interações e efeitos temáticos
-│   │   ├── deadpool.ts
-│   │   ├── hammer-strike.ts
-│   │   ├── index.ts
-│   │   ├── portal.ts
-│   │   ├── snap.ts
-│   │   └── web-shot.ts
-│   ├── state/              # Gerenciamento de estado e métricas
-│   │   ├── stats.ts
-│   │   ├── store.ts
-│   │   └── ui.ts
-│   ├── styles/             # Folhas de estilo CSS
-│   │   ├── easter-eggs.css
-│   │   └── main.css
-│   ├── app.ts              # Ponto de entrada da aplicação
-│   ├── router.ts           # Roteamento por hash
-│   ├── utils.ts            # Funções utilitárias e sanitização
-│   └── vite-env.d.ts
-├── index.html              # Shell HTML da aplicação
-├── package.json
-├── tsconfig.json
-└── vite.config.ts          # Configuração Vite com headers de segurança
-```
+## Executar localmente
 
----
+Você precisa de **Git**, **Node.js 22.12 ou superior** — preferencialmente uma versão LTS — e **npm**. O Vite 8 não oferece suporte a Node 18.
 
-## 🚀 Como Executar
-
-### Pré-requisitos
-- Node.js (v18 ou superior)
-- npm
-
-### 1. Clonar e Instalar Dependências
-```bash
-git clone https://github.com/SEU_USUARIO/operacao-doomsday.git
+```sh
+git clone https://github.com/imagalhaess/operacao-doomsday.git
 cd operacao-doomsday
-npm install
-```
-
-### 2. Executar em Ambiente de Desenvolvimento
-```bash
+npm ci
 npm run dev
 ```
-Acesse `http://localhost:3000` no seu navegador.
 
-### 3. Gerar Build de Produção
-```bash
+Abra **http://localhost:3000**. Mantenha esse terminal aberto enquanto usar o servidor.
+
+| Comando | Resultado |
+| --- | --- |
+| `npm run dev` | Servidor de desenvolvimento com atualização durante a edição. |
+| `npm test` | Testes de regressão com o runner nativo do Node.js. |
+| `npm run build` | Verificação TypeScript e geração do site estático em `dist`. |
+| `npm run preview` | Prévia do último build em **http://localhost:4173**. |
+
+Para conferir a versão de produção localmente:
+
+```sh
 npm run build
-```
-Os arquivos otimizados e prontos para publicação estarão no diretório `dist/`.
-
-### 4. Testar o Build Localmente
-```bash
 npm run preview
 ```
 
-### 5. Executar Testes de Regressão
-```bash
-npm test
+> **Dev não é preview:** o preview não recompila suas edições. Gere outro build para vê-las nessa porta. Se ela estiver ocupada, confira a URL informada pelo Vite no terminal.
+
+## Mapa do código
+
+SPA em **TypeScript 7**, **Vite 8**, **Tailwind CSS 4**, **daisyUI 5** e **PeerJS**, sem framework de componentes.
+
+```text
+operacao-doomsday
+├── .github           Modelos de issue e pull request
+├── docs
+│   └── assets        Identidade visual da documentação
+├── public            Ícones, cursores, manifesto PWA e Service Worker
+├── src
+│   ├── components    Renderização das telas, cards, dossiês e controles
+│   ├── data          Trilhas, personagens, resumos e links catalogados
+│   ├── easter-eggs   Efeitos visuais e marcos de progresso
+│   ├── state         Persistência, estatísticas, estado de UI e coop
+│   ├── styles        Estilos convencionais, pixel art e responsividade
+│   ├── utils         Síntese de áudio e cursor temático
+│   ├── app.ts        Renderização principal e eventos delegados
+│   ├── router.ts     Navegação por hash
+│   └── utils.ts      Escape de HTML, datas e rótulos compartilhados
+├── tests             Regressões de personagens, links, áudio, cache e UI
+├── CHANGELOG.md      Histórico das entregas
+└── CONTRIBUTING.md   Preparação do ambiente e fluxo de contribuição
 ```
-Verifica o seletor de personagens, os estados do dossiê, a posição na trilha, os links do Disney+, o desbloqueio/mute do áudio e a atualização da página com fallback offline usando o runner nativo do Node.js e o Vite.
 
-Os assets de ícone e cursor são SVGs locais em `public/icon.svg`, `public/icon-8bit.svg` e `public/cursors/`, sem extensões ou dependências adicionais. A pesquisa de alternativas incluiu [Pixelarticons](https://pixelarticons.com/docs/) (ícones genéricos, conjunto gratuito MIT), [NES.css](https://nostalgic-css.github.io/NES.css/) (componentes retrô) e um [cursor 8-bit do Homem de Ferro](https://www.rw-designer.com/cursor-detail/130701) (arquivo `.ani`, não adotado por compatibilidade web). Os cursores locais usam [CSS cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/cursor) com hotspots explícitos e fallback nativo; não alteram o cursor do sistema.
+O fluxo principal é **evento → atualização de estado → renderização**. Os componentes retornam HTML; o progresso é persistido pelo módulo `src/state/store.ts`. Os atalhos do Disney+ usam um único componente, `src/components/watch-now.ts`, e um mapa por ID em `src/data/links.ts`.
 
-Os destinos do Disney+ foram conferidos em 20/11/2026 no [catálogo oficial Marvel](https://www.disneyplus.com/brand/marvel), no [guia oficial de filmes e séries](https://www.disneyplus.com/explore/articles/marvel-movies-in-order) e nas páginas dos títulos. O mapa fica em `src/data/links.ts`; títulos sem URL catalogada exibem um aviso, nunca uma busca ou um ID inventado. Os links HTTPS não forçam o aplicativo móvel nem iniciam a reprodução automaticamente.
+## Contribuir
 
----
+Abra uma [issue](https://github.com/imagalhaess/operacao-doomsday/issues/new/choose) para discutir mudanças maiores e siga o [guia de contribuição](CONTRIBUTING.md). Não é necessário começar com uma funcionalidade: correções de texto, acessibilidade e curadoria com fontes oficiais também ajudam.
 
-## 📄 Licença
+Boas primeiras contribuições:
 
-Este projeto é disponibilizado para uso pessoal sob a licença [MIT](LICENSE).
-Marcas registradas, personagens e nomes citados pertencem à Marvel Characters, Inc. e à The Walt Disney Company.
+- Conferir um link do Disney+ e registrar a fonte e a região consultada.
+- Reproduzir um problema e incluir passos claros, navegador e captura sem dados pessoais.
+- Melhorar navegação por teclado, contraste ou leitura em telas pequenas.
+- Corrigir documentação ou acrescentar uma regressão para um bug.
 
+Os modelos de issue e PR ajudam a descrever contexto, resultado esperado e verificações. Mudanças relevantes devem atualizar o [changelog](CHANGELOG.md), sem transformar cada ajuste de formatação em uma entrada.
+
+## Dados e limites
+
+**Progresso local, não uma conta na nuvem.** Os registros ficam no `localStorage` do navegador, sem criptografia implementada pela aplicação. Limpar os dados do site, usar outro navegador ou trocar de origem/porta não transfere o progresso. Guarde um arquivo com **Salvar progresso** antes de trocar de aparelho ou limpar dados. O JSON exportado pode conter notas pessoais; não o publique em issues.
+
+**Offline parcial.** Após o primeiro carregamento online, o Service Worker pode reutilizar páginas e assets locais já cacheados. Disney+, pôsteres externos, fontes ainda não carregadas e conexões em dupla precisam de rede. Não há garantia de funcionamento integral offline.
+
+**Disney+ é um serviço externo.** Os links abrem em nova aba e podem exigir login, assinatura e disponibilidade regional. Séries abrem a página da produção, onde se escolhe a temporada. Não há login integrado nem reprodução automática. Títulos sem URL verificada mostram um aviso; Doomsday ainda não oferece reprodução do filme completo no catálogo atual da aplicação.
+
+**Modo em dupla.** Usa PeerJS/WebRTC e depende de sinalização e conectividade de rede. Compartilhe o código da sala apenas com quem deve receber seu progresso; o payload de sincronização inclui seus registros de progresso, que podem conter notas.
+
+**Coop no preview.** A CSP atual do preview permite conexões apenas à própria origem (`connect-src 'self'`), bloqueando a sinalização externa. Para desenvolver esse fluxo, use `npm run dev`. Na hospedagem, as origens necessárias ao PeerJS precisam ser autorizadas explicitamente.
+
+**Segurança de publicação.** Os cabeçalhos configurados no Vite para desenvolvimento/preview não são automaticamente instalados no servidor de hospedagem. Ao publicar `dist`, configure HTTPS, CSP e demais cabeçalhos no provedor. Preserve o escape de HTML para conteúdo dinâmico e não coloque credenciais no frontend.
+
+### Problemas comuns
+
+| Sintoma | O que conferir |
+| --- | --- |
+| Preview não abre | O processo `npm run preview` precisa estar em execução; use a porta indicada no terminal. |
+| Alteração não aparece | No preview, gere um novo build e recarregue a página. O servidor de desenvolvimento é mais adequado para editar. |
+| Som não toca | Use **Ativar som**, interaja com a página e confira o volume e o mute da aba/aplicativo. |
+| Pôster não carrega | Pode haver indisponibilidade da URL ou da rede. O card mantém as iniciais e o ano como fallback. |
+| Herói/nível não aparecem | O HUD é exclusivo da rota **Trilhas (8-Bit)**. |
+| Progresso parece ter sumido | Confira se está no mesmo navegador e origem/porta; restaure um arquivo salvo anteriormente, se necessário. |
+
+## Créditos e licença
+
+- Projeto independente de fãs, sem afiliação oficial com Marvel ou Disney. Marcas, personagens e materiais de terceiros pertencem aos respectivos titulares.
+- Tipografia: Press Start 2P, Silkscreen e DM Mono, carregadas pelo Google Fonts.
+- Pôsteres referenciados no TMDB; disponibilidade das imagens depende desse serviço.
+- Ícones e cursores locais em SVG. A pesquisa visual incluiu [Pixelarticons](https://pixelarticons.com/docs/), [NES.css](https://nostalgic-css.github.io/NES.css/) e um [cursor 8-bit do Homem de Ferro](https://www.rw-designer.com/cursor-detail/130701); essas bibliotecas e esse arquivo `.ani` não foram incorporados como dependências.
+- Links Disney+ conferidos em 20/11/2026 no [catálogo Marvel](https://www.disneyplus.com/brand/marvel), no [guia oficial de ordem dos filmes](https://www.disneyplus.com/explore/articles/marvel-movies-in-order) e nas páginas das produções.
+
+**Licença do código:** o código autoral é distribuído sob a [licença MIT](LICENSE), que permite uso, modificação e distribuição, inclusive comercial, desde que os avisos de autoria e licença sejam preservados. Materiais de terceiros, incluindo marcas, personagens, pôsteres, fontes e dependências, não são relicenciados por este projeto e continuam sujeitos aos direitos e às licenças de seus respectivos titulares.

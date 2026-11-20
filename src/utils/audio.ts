@@ -126,6 +126,19 @@ export function playFanfareSound(): void {
   })));
 }
 
+export function playLevelUpSound(): void {
+  play([
+    { frequency: 392, duration: 0.09 },
+    { frequency: 523.25, duration: 0.09, delay: 0.1 },
+    { frequency: 659.25, duration: 0.09, delay: 0.2 },
+    { frequency: 783.99, duration: 0.12, delay: 0.3 },
+    { frequency: 987.77, duration: 0.09, delay: 0.42 },
+    { frequency: 523.25, duration: 0.5, delay: 0.54 },
+    { frequency: 659.25, duration: 0.5, delay: 0.54 },
+    { frequency: 1046.5, duration: 0.5, delay: 0.54 },
+  ], 0.055);
+}
+
 export function initAudioFeedback(): () => void {
   let lastHover = -Infinity;
   const unlock = () => {
