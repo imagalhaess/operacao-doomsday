@@ -132,3 +132,4 @@ export function playFanfareSound(): void {
     time += note.dur * 0.9;
   });
 }
+

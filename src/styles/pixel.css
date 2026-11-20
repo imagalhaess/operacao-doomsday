@@ -231,3 +231,4 @@
   0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
   100% { opacity: 0; transform: translate(-50%, -35px) scale(1.2); }
 }
+
