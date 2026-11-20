@@ -1,0 +1,17 @@
+{
+  "name": "Operação Doomsday",
+  "short_name": "OpDoomsday",
+  "description": "Painel pessoal de preparação para Avengers: Doomsday",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080b11",
+  "theme_color": "#e5484d",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
