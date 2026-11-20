@@ -18,6 +18,8 @@ let watchNow;
 let shell;
 let ui;
 let posters;
+let milestones;
+let stats;
 const storageDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
 const locationDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'location');
 
@@ -40,7 +42,7 @@ before(async () => {
     ssr: { noExternal: ['peerjs'] },
     appType: 'custom',
   });
-  [characters, links, modals, marathon, drawer, tracks, store, coop, { allItems }, watchNow, shell, { ui }, posters] =
+  [characters, links, modals, marathon, drawer, tracks, store, coop, { allItems }, watchNow, shell, { ui }, posters, milestones, stats] =
     await Promise.all([
       server.ssrLoadModule('/src/data/characters.ts'),
       server.ssrLoadModule('/src/data/links.ts'),
@@ -55,6 +57,8 @@ before(async () => {
       server.ssrLoadModule('/src/components/shell.ts'),
       server.ssrLoadModule('/src/state/ui.ts'),
       server.ssrLoadModule('/src/components/poster.ts'),
+      server.ssrLoadModule('/src/easter-eggs/index.ts'),
+      server.ssrLoadModule('/src/state/stats.ts'),
     ]);
 });
 
@@ -248,4 +252,86 @@ test('trail renders the selected player at the current node as progress changes'
   assert.match(currentNode, /\[ Tony Stark \]/);
   assert.match(currentNode, />J\u00e1 assisti</);
   store.resetProgress();
+});
+
+function withMilestoneDocument(t, run) {
+  const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'document');
+  const notices = [];
+  const document = new EventTarget();
+  document.createElement = () => Object.assign(new EventTarget(), {
+    children: [],
+    attributes: new Map(),
+    setAttribute(name, value) { this.attributes.set(name, value); },
+    appendChild(child) { this.children.push(child); },
+    remove() { this.removed = true; },
+  });
+  document.getElementById = id => notices.findLast(notice => notice.id === id && !notice.removed) ?? null;
+  document.body = { appendChild: notice => notices.push(notice) };
+  Object.defineProperty(globalThis, 'document', { configurable: true, value: document });
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  try {
+    run(document, notices);
+  } finally {
+    const escape = new Event('keydown');
+    Object.defineProperty(escape, 'key', { value: 'Escape' });
+    document.dispatchEvent(escape);
+    t.mock.timers.reset();
+    store.resetProgress();
+    if (descriptor) Object.defineProperty(globalThis, 'document', descriptor);
+    else delete globalThis.document;
+  }
+}
+
+test('track completion celebrates summaries, not partial titles or edits within a completed track', t => {
+  withMilestoneDocument(t, (document, notices) => {
+    store.resetProgress();
+    const firstTrack = allItems.filter(item => item.trackId === 't1');
+    for (const item of firstTrack.slice(0, -1)) store.updateProgress(item.id, { status: 'watched' });
+    const last = firstTrack.at(-1);
+    localStorage.setItem('op-doomsday:hammer-t1', 'true');
+    store.updateProgress(last.id, { status: 'partial' });
+    assert.equal(stats.isAllDone('t1'), false);
+    milestones.checkMilestones(2, 't1', false);
+    assert.equal(notices.length, 0);
+
+    store.updateProgress(last.id, { status: 'skipped' });
+    assert.equal(stats.isAllDone('t1'), true);
+    milestones.checkMilestones(2, 't1', false);
+    assert.equal(notices.length, 1);
+    assert.match(notices[0].innerHTML, /Trilha 01 conclu/);
+    assert.equal(notices[0].attributes.get('role'), 'status');
+    assert.match(tracks.renderTracksPage(), /6\/6 CONCLU/);
+
+    store.updateProgress(last.id, { status: 'watched' });
+    milestones.checkMilestones(2, 't1', true);
+    assert.equal(notices.length, 1);
+    store.updateProgress(last.id, { status: 'pending' });
+    milestones.checkMilestones(2, 't1', true);
+    assert.equal(notices.length, 1);
+    store.updateProgress(last.id, { status: 'watched' });
+    milestones.checkMilestones(2, 't1', false);
+    assert.equal(notices.length, 2);
+    assert.equal(notices[0].removed, true);
+    t.mock.timers.tick(7000);
+    assert.equal(document.getElementById('milestone-celebration'), null);
+  });
+});
+
+test('a simultaneous XP level-up and completed track share one dismissible celebration', t => {
+  withMilestoneDocument(t, (document, notices) => {
+    store.resetProgress();
+    const firstTrack = allItems.filter(item => item.trackId === 't1');
+    for (const item of firstTrack.slice(0, -1)) store.updateProgress(item.id, { status: 'watched' });
+    for (const item of allItems.filter(item => item.trackId !== 't1').slice(0, 4)) {
+      store.updateProgress(item.id, { status: 'watched' });
+    }
+    const previousLevel = stats.getPlayerLevel();
+    store.updateProgress(firstTrack.at(-1).id, { status: 'watched' });
+    milestones.checkMilestones(previousLevel, 't1', false);
+    assert.equal(notices.length, 1);
+    assert.match(notices[0].innerHTML, /Trilha 01 conclu/);
+    assert.match(notices[0].innerHTML, /N\u00edvel 3 desbloqueado/);
+    notices[0].children[0].dispatchEvent(new Event('click'));
+    assert.equal(document.getElementById('milestone-celebration'), null);
+  });
 });

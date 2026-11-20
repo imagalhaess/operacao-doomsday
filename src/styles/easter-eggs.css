@@ -1,5 +1,74 @@
 /* ─── Easter Eggs Keyframes & Overlays ────────────────────── */
 
+.milestone-celebration {
+  position: fixed;
+  z-index: 2000;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(480px, calc(100vw - 32px));
+  box-sizing: border-box;
+  padding: 24px;
+  border: 2px solid #f4bb65;
+  background: #101c2c;
+  color: #f5f7fb;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.65);
+  animation: milestone-arrive 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.milestone-title {
+  margin: 0;
+  padding-right: 28px;
+  color: #f4bb65;
+  font-size: clamp(14px, 2.4vw, 20px);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.milestone-message {
+  margin: 16px 0 0;
+  color: #f5f7fb;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.milestone-sound {
+  margin: 12px 0 0;
+  color: #b6cbe2;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.milestone-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #7894b5;
+  background: #101c2c;
+  color: #f5f7fb;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.milestone-close:hover,
+.milestone-close:focus-visible {
+  outline: 2px solid #f4bb65;
+  outline-offset: 2px;
+}
+
+@keyframes milestone-arrive {
+  from { clip-path: inset(0 100% 0 0); transform: translate(-50%, -8px); }
+  to { clip-path: inset(0); transform: translate(-50%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .milestone-celebration { animation: none; }
+}
+
 @keyframes spin-portal {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

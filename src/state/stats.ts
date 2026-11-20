@@ -36,7 +36,10 @@ export function getTrackStats(trackId: string): TrackStats {
 export function isAllDone(trackId: string): boolean {
   const t = tracks.find((tr) => tr.id === trackId);
   if (!t) return false;
-  return t.items.every((item) => getProgress(item.id).status !== 'pending');
+  return t.items.every((item) => {
+    const status = getProgress(item.id).status;
+    return status === 'watched' || status === 'skipped';
+  });
 }
 
 export function getNextItem(): EnrichedItem {
