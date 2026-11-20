@@ -214,7 +214,7 @@ function renderTrackSection(
   return `
     <section class="trail-track-section">
       <div class="trail-track-badge font-pixel">
-        <span>TRILHA ${track.number}</span> — <span>${track.name}</span> (${track.period}) · ${stats.watched}/${stats.total} CONCLUÍDOS
+        <span>TRILHA ${track.number}</span> — <span>${track.name}</span> (${track.period}) · ${stats.watched + stats.skipped}/${stats.total} CONCLUÍDOS
       </div>
       <div class="trail-nodes-wrapper">
         ${nodesHtml}

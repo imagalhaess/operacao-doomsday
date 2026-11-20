@@ -19,7 +19,7 @@ As alterações integradas à `master` em **20/11/2026** estão registradas no [
 | Assistir agora | Links diretos oficiais em cards, trilhas e dossiês. São 77 entradas catalogadas, sem busca ou identificadores inventados. |
 | Trilha 8-bit | Seleção dos 12 personagens, token na posição atual, nome flutuante e HUD de herói/nível/XP exclusivo dessa tela. |
 | Identidade visual | Marca convencional nas demais telas; Reator Arc e favicon pixelados na trilha. Tipografia retrô sem Inter. |
-| Som e cursor | Efeitos de hover, foco por teclado, clique e conquistas, com vinheta exclusiva ao subir de nível; cursor MCU convencional ou pixelado conforme a tela. |
+| Som e cursor | Efeitos de hover, foco por teclado, clique e conquistas, com vinheta ao subir de nível ou concluir uma trilha; cursor MCU convencional ou pixelado conforme a tela. |
 | Estados | **Já assisti**, **Li o resumo**, **Vi uma parte** e **Pendente**. Selecionar o estado ativo volta para pendente. |
 | Progresso | **Salvar progresso** baixa um arquivo; **Restaurar progresso** abre esse arquivo e substitui os dados atuais. |
 | Confiabilidade | Pôsteres com fallback de iniciais/ano, atualização do cache e cabeçalho responsivo sem cortar os controles. |
@@ -39,7 +39,9 @@ Os dossiês incluem resumos com **spoilers**, fatos importantes e conexões narr
 
 **Som:** clique em **Ativar som**, no cabeçalho de qualquer tela. Ao voltar ao aplicativo, o navegador pode exigir uma primeira interação para liberar a reprodução. O botão **Som ligado** desativa os efeitos. Não há música de fundo.
 
-**Subida de nível:** a cada cinco produções marcadas como **Já assisti** (500 XP), você ganha um nível e recebe um aviso. Com o som ativado, toca uma vinheta 8-bit original de aproximadamente um segundo. Recarregar, navegar ou restaurar um backup não repete a comemoração; desfazer um título pode reduzir o nível, e alcançar o limiar novamente comemora a nova subida. Não usamos gravações ou trilhas sonoras dos filmes.
+**Conquistas:** subir de nível por XP (a cada cinco produções marcadas como **Já assisti**) e concluir uma trilha inteira são conquistas diferentes; ambas exibem uma faixa de comemoração no topo e, com o som ativado, uma vinheta 8-bit original de aproximadamente um segundo. Para concluir uma trilha, todos os títulos precisam estar como **Já assisti** ou **Li o resumo**; **Vi uma parte** ainda não conclui. A faixa aparece mesmo com animações reduzidas, pode ser fechada pelo botão ou por Escape e informa quando o som está desativado.
+
+Navegar, recarregar ou restaurar um backup não repete a comemoração. Desfazer e concluir novamente comemora a nova conquista, sem bloqueio por um aviso visto anteriormente. Se o mesmo clique subir o nível e concluir a trilha, há uma única comemoração. Não usamos gravações ou trilhas sonoras dos filmes.
 
 **Cursor:** no desktop, a luva repulsora identifica controles interativos. A versão pixelada aparece na trilha; as demais telas usam a versão convencional. Campos de texto e dispositivos de toque mantêm o comportamento nativo. O cursor do sistema operacional não é alterado.
 

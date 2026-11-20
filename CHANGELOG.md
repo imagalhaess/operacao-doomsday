@@ -8,8 +8,15 @@ As datas abaixo identificam integrações; não representam versões publicadas 
 
 ### Adicionado
 
-- Vinheta 8-bit original e aviso ao subir de nível: um nível a cada cinco produções assistidas, respeitando a ativação e o mute do som.
-- A comemoração ocorre apenas quando uma mudança de status aumenta o nível, sem repetição ao navegar, recarregar ou restaurar um backup.
+- Vinheta 8-bit original e aviso ao subir de nível ou concluir uma trilha, respeitando a ativação e o mute do som.
+- A comemoração ocorre apenas quando uma mudança de status conquista um nível ou conclui uma trilha, sem repetição ao navegar, recarregar ou restaurar um backup.
+
+### Corrigido
+
+- Concluir uma trilha agora também dispara a comemoração, mesmo sem mudar o nível de XP e mesmo quando o efeito antigo já havia sido visto.
+- Faixa de conquista visível no topo, sem depender de animação ou de um toast discreto; sobrevive à renderização da tela e pode ser fechada com Escape.
+- Títulos parcialmente assistidos não concluem uma trilha. Os títulos conhecidos por resumo contam no total de concluídos.
+- Um único clique que ganha nível e conclui a trilha produz uma única comemoração.
 
 ### Documentação
 
