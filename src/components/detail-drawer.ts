@@ -55,8 +55,8 @@ export function renderDetailDrawer(item: EnrichedItem): string {
           <h3>Status da missão</h3>
           <div class="status-actions">
             ${statusButtons
-              .map(
-                ([value, label, hint]) => `
+      .map(
+        ([value, label, hint]) => `
               <button
                 class="status-action ${p.status === value ? 'active' : ''}"
                 data-action="status"
@@ -65,8 +65,8 @@ export function renderDetailDrawer(item: EnrichedItem): string {
                 title="${p.status === value ? 'Clique novamente para desmarcar e voltar para pendente' : hint}"
               >${label}</button>
             `
-              )
-              .join('')}
+      )
+      .join('')}
           </div>
           <label class="mono" style="display:block; margin-top:16px; color:var(--muted)">
             DATA EM QUE ASSISTIU
@@ -101,8 +101,8 @@ export function renderDetailDrawer(item: EnrichedItem): string {
           <h3>Avaliação pessoal</h3>
           <div class="star-row" aria-label="Avaliar de 1 a 5 estrelas">
             ${[1, 2, 3, 4, 5]
-              .map(
-                (n) => `
+      .map(
+        (n) => `
               <button
                 class="star ${n <= p.rating ? 'active' : ''}"
                 data-action="rating"
@@ -111,8 +111,8 @@ export function renderDetailDrawer(item: EnrichedItem): string {
                 aria-label="${n} estrelas"
               >★</button>
             `
-              )
-              .join('')}
+      )
+      .join('')}
           </div>
           <textarea data-notes-for="${item.id}" placeholder="Observações pessoais, conexões ou dúvidas...">${escapeHtml(p.notes || '')}</textarea>
           <div class="detail-footer">
@@ -123,8 +123,8 @@ export function renderDetailDrawer(item: EnrichedItem): string {
         <div class="drawer-section">
           <h3>Conteúdo visual complementar</h3>
           ${videos
-            .map(
-              (v) => `
+      .map(
+        (v) => `
             <a class="video-link" href="${v.url}" target="_blank" rel="noreferrer">
               <span>
                 <strong>${v.label}</strong><br>
@@ -133,8 +133,8 @@ export function renderDetailDrawer(item: EnrichedItem): string {
               <span>↗</span>
             </a>
           `
-            )
-            .join('')}
+      )
+      .join('')}
           <a class="source-link" href="${sourceFor(item)}" target="_blank" rel="noreferrer">Abrir fonte oficial do título/curadoria ↗</a>
         </div>
       </aside>
