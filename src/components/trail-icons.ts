@@ -279,3 +279,4 @@ export function getTrailIcon(itemId: string): string {
       `;
   }
 }
+

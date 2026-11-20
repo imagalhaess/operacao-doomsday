@@ -39,6 +39,7 @@ import { showToast } from './components/toast';
 
 import { initEasterEggs, checkMilestones } from './easter-eggs';
 import { triggerWatchedEffect } from './easter-eggs/watched-effect';
+import { toggleSound, playUndoSound } from './utils/audio';
 
 // ─── Modal State ────────────────────────────────────────────
 
@@ -171,6 +172,13 @@ document.addEventListener('click', (event) => {
 
   const action = el.dataset.action;
 
+  if (action === 'toggle-sound') {
+    const on = toggleSound();
+    showToast(on ? 'Áudio Chiptune 8-Bit Ativado! 🔊' : 'Áudio Mutado. 🔇', 'info');
+    render();
+    return;
+  }
+
   if (action === 'navigate') {
     navigate(el.dataset.path || '/');
     return;
@@ -301,6 +309,7 @@ document.addEventListener('click', (event) => {
     } else if (newStatus === 'skipped') {
       showToast('Conhecido por resumo.', 'warn');
     } else if (newStatus === 'pending') {
+      playUndoSound();
       showToast('Desmarcado (pendente).', 'info');
     } else {
       showToast('Status atualizado.', 'info');

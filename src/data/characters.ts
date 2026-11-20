@@ -166,3 +166,4 @@ export const CHARACTERS: MarvelCharacter[] = [
 export function getCharacter(id: string): MarvelCharacter {
   return CHARACTERS.find((c) => c.id === id) || CHARACTERS[0];
 }
+

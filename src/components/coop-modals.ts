@@ -109,3 +109,4 @@ export function renderCoopModal(): string {
     </div>
   `;
 }
+

@@ -1,4 +1,6 @@
 import { ui } from '../state/ui';
+import { getStats } from '../state/stats';
+import { isSoundEnabled } from '../utils/audio';
 
 interface NavItem {
   href: string;
@@ -9,7 +11,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { href: '/', icon: '◈', label: 'Dashboard' },
   { href: '/maratona', icon: '◫', label: 'Minha maratona' },
-  { href: '/trilhas', icon: '⌁', label: 'Trilhas' },
+  { href: '/trilhas', icon: '⌁', label: 'Trilhas (8-Bit)' },
   { href: '/wrapped', icon: '✦', label: 'Marvel Wrapped' },
   { href: '/guia', icon: '◎', label: 'Guia de conexões' },
   { href: '/historico', icon: '◷', label: 'Meu histórico' },
@@ -17,6 +19,10 @@ const NAV_ITEMS: NavItem[] = [
 
 export function renderShell(content: string): string {
   const path = ui.route;
+  const stats = getStats();
+  const level = Math.floor(stats.watched / 5) + 1;
+  const xpInLevel = (stats.watched % 5) * 20; // 0 to 100%
+  const soundOn = isSoundEnabled();
 
   const navHtml = NAV_ITEMS.map(
     ({ href, icon, label }) => `
@@ -33,11 +39,28 @@ export function renderShell(content: string): string {
           <span class="brand-mark" aria-hidden="true"></span>
           <span>
             <span class="brand-name">OPERAÇÃO DOOMSDAY</span>
-            <span class="brand-sub">MARVEL PREP / 2026</span>
+            <span class="brand-sub">MARVEL 8-BIT QUEST / 2026</span>
           </span>
         </a>
+
+        <!-- Retro 8-Bit Arcade HUD -->
+        <div class="pixel-hud-bar">
+          <div class="hud-item" title="Seu Nível de Conclusão Marvel">
+            <span class="hud-tag">LVL ${level < 10 ? '0' + level : level}</span>
+            <div class="hud-xp-track" title="${xpInLevel}% para o próximo nível">
+              <div class="hud-xp-fill" style="width: ${xpInLevel}%;"></div>
+            </div>
+          </div>
+          <div class="hud-item" title="Missões Concluídas">
+            <span>⭐</span>
+            <span style="color:#f4bb65; font-weight:700;">${stats.watched}</span>
+          </div>
+          <button class="sound-toggle-btn" data-action="toggle-sound" title="Alternar efeitos de áudio 8-bit">
+            ${soundOn ? '🔊 CHIPTUNE' : '🔇 MUTE'}
+          </button>
+        </div>
+
         <div class="top-actions">
-          <span class="mission-status"><span class="pulse"></span> SISTEMA OPERACIONAL</span>
           <button class="ghost-button" data-action="import">Importar</button>
           <button class="ghost-button" data-action="export">Exportar backup</button>
         </div>
@@ -65,4 +88,3 @@ export function renderShell(content: string): string {
     </div>
   `;
 }
-

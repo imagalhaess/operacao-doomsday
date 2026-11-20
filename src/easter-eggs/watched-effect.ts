@@ -1,37 +1,31 @@
+import { playCoinSound } from '../utils/audio';
+
 export function triggerWatchedEffect(targetEl: HTMLElement): void {
+  // 1. Play retro 8-bit coin/powerup audio
+  playCoinSound();
+
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  // 1. Arc Reactor Energy Pulse on the button
+  // 2. Arc Reactor Energy Pulse on the button
   const button = (targetEl.querySelector('[data-action="quick-status"][data-status="watched"]') || targetEl) as HTMLElement;
   button.classList.add('arc-active');
   setTimeout(() => button.classList.remove('arc-active'), 500);
 
-  // 2. Tactical HUD scanline border sweep on the card
+  // 3. Tactical HUD scanline border sweep on the card
   const card = targetEl.closest('.title-card, .trail-node') as HTMLElement | null;
   if (card) {
     card.classList.add('hud-acquired');
     setTimeout(() => card.classList.remove('hud-acquired'), 650);
   }
 
-  // 3. Crisp floating micro-badge '+ REGISTRADO'
+  // 4. Retro 8-bit +100 XP floating particle
   const rect = (button || targetEl).getBoundingClientRect();
-  const badge = document.createElement('div');
-  badge.className = 'hud-toast-badge';
-  badge.textContent = '✓ ATUALIZADO';
-  badge.style.cssText = `
-    position: fixed;
-    top: ${rect.top - 24}px;
-    left: ${rect.left + rect.width / 2}px;
-    transform: translateX(-50%);
-    pointer-events: none;
-    z-index: 1000;
-  `;
-  document.body.appendChild(badge);
+  const xpBadge = document.createElement('div');
+  xpBadge.className = 'pixel-xp-particle';
+  xpBadge.textContent = '+100 XP';
+  xpBadge.style.left = `${rect.left + rect.width / 2}px`;
+  xpBadge.style.top = `${rect.top - 16}px`;
 
-  setTimeout(() => {
-    badge.style.opacity = '0';
-    badge.style.transform = 'translate(-50%, -10px)';
-    badge.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-    setTimeout(() => badge.remove(), 250);
-  }, 500);
+  document.body.appendChild(xpBadge);
+  setTimeout(() => xpBadge.remove(), 800);
 }

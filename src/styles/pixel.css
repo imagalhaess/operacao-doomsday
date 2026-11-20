@@ -1,0 +1,233 @@
+/* ─── 8-Bit Pixel Game Aesthetics (Inspired by tusharsoni.com) ─── */
+
+:root {
+  --pixel-font: 'Silkscreen', 'Press Start 2P', 'DM Mono', monospace;
+  --arcade-font: 'Press Start 2P', monospace;
+  --pixel-border: 3px solid #000;
+  --pixel-shadow: 4px 4px 0 #000;
+  --pixel-shadow-sm: 2px 2px 0 #000;
+}
+
+/* 8-bit Typography Utility */
+.font-pixel {
+  font-family: var(--pixel-font);
+  letter-spacing: 0.05em;
+}
+
+.font-arcade {
+  font-family: var(--arcade-font);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+/* ─── Retro Arcade HUD Topbar ────────────────────────────── */
+
+.pixel-hud-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #000;
+  border: 2px solid #334155;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-family: var(--pixel-font);
+  font-size: 11px;
+}
+
+.hud-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-tag {
+  color: #f4bb65;
+  font-weight: 700;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.hud-xp-track {
+  width: 90px;
+  height: 10px;
+  background: #1e293b;
+  border: 1px solid #475569;
+  border-radius: 2px;
+  overflow: hidden;
+  display: flex;
+}
+
+.hud-xp-fill {
+  height: 100%;
+  background: #22c55e;
+  box-shadow: 1px 0 0 #15803d;
+  transition: width 0.3s ease;
+}
+
+.sound-toggle-btn {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #f5f7fb;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 10px;
+  font-family: var(--pixel-font);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 2px 2px 0 #000;
+  transition: transform 0.1s ease;
+}
+
+.sound-toggle-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #000;
+}
+
+/* ─── 8-Bit Pixel Cards & Buttons ────────────────────────── */
+
+.pixel-box {
+  background: #101621;
+  border: 2px solid #27364b;
+  box-shadow: 4px 4px 0 #000;
+  border-radius: 6px;
+}
+
+.pixel-btn {
+  font-family: var(--pixel-font);
+  font-size: 11px;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 #000;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  position: relative;
+}
+
+.pixel-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #000;
+}
+
+.pixel-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #000;
+}
+
+.pixel-btn--primary {
+  background: #e5484d;
+  color: #fff;
+  border-color: #7f1d1d;
+}
+
+.pixel-btn--success {
+  background: #16a34a;
+  color: #fff;
+  border-color: #14532d;
+}
+
+/* ─── 8-Bit Pixel Character Sprite Animations ────────────── */
+
+.pixel-sprite {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.7));
+}
+
+.anim-bounce {
+  animation: pixel-walk 0.7s steps(2, end) infinite;
+}
+
+.anim-float {
+  animation: pixel-hover 1.2s steps(4, end) infinite alternate;
+}
+
+.pixel-flame {
+  animation: flame-flicker 0.2s steps(2, end) infinite alternate;
+}
+
+.pixel-glow {
+  animation: glow-pulse 1s steps(3, end) infinite alternate;
+}
+
+.pixel-spark {
+  animation: spark-flash 0.3s steps(2, end) infinite alternate;
+}
+
+@keyframes pixel-walk {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes pixel-hover {
+  0% { transform: translateY(-2px); }
+  100% { transform: translateY(3px); }
+}
+
+@keyframes flame-flicker {
+  0% { height: 1px; fill: #60a5fa; }
+  100% { height: 3px; fill: #f59e0b; }
+}
+
+@keyframes glow-pulse {
+  0% { fill: #22c55e; }
+  100% { fill: #86efac; }
+}
+
+@keyframes spark-flash {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* ─── Pixel Trail Overworld Map ──────────────────────────── */
+
+.pixel-trail-station {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pixel-walker-tag {
+  position: absolute;
+  left: -48px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.pixel-walker-tag .char-name-bubble {
+  background: #000;
+  color: #f4bb65;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: var(--pixel-font);
+  font-size: 9px;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0 #000;
+}
+
+/* Floating Pixel XP Particle (+100 XP) */
+.pixel-xp-particle {
+  position: fixed;
+  color: #22c55e;
+  font-family: var(--arcade-font);
+  font-size: 12px;
+  text-shadow: 2px 2px 0 #000;
+  pointer-events: none;
+  z-index: 9999;
+  animation: float-xp 0.8s ease-out forwards;
+}
+
+@keyframes float-xp {
+  0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -35px) scale(1.2); }
+}

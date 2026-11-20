@@ -8,6 +8,7 @@ import {
   getPlayerPosition
 } from '../state/coop';
 import { getTrailIcon } from './trail-icons';
+import { getPixelSprite } from '../data/pixel-sprites';
 import { importanceClass, escapeHtml } from '../utils';
 import type { Track } from '../data/types';
 
@@ -23,7 +24,7 @@ export function renderTracksPage(): string {
   if (coopState.enabled) {
     if (coopState.p2Connected) {
       if (diffTitles === 0) {
-        syncStatusText = 'Vocês estão assistindo juntos no mesmo ponto!';
+        syncStatusText = 'Vocês estão lado a lado no mesmo ponto da trilha!';
       } else if (diffTitles > 0) {
         syncStatusText = `${p1.name} está ${diffTitles} título${diffTitles > 1 ? 's' : ''} à frente de ${p2.name}`;
       } else {
@@ -32,20 +33,20 @@ export function renderTracksPage(): string {
     } else {
       syncStatusText = coopState.roomId
         ? `Aguardando parceiro na Sala: ${coopState.roomId}`
-        : 'Maratona em Dupla habilitada (offline/local)';
+        : 'Maratona em Dupla habilitada (modo local)';
     }
   }
 
   const coopBannerHtml = `
-    <div class="coop-banner">
+    <div class="coop-banner pixel-box">
       <div class="coop-players">
         <!-- Player 1 -->
         <div class="player-card">
           <div class="player-avatar-wrap" data-action="open-char-select" data-player="1" title="Clique para trocar de herói">
-            ${p1.avatarSvg}
+            ${getPixelSprite(p1.id, 32)}
           </div>
           <div class="player-info">
-            <strong>${p1.name} <span class="badge ${importanceClass('ESSENCIAL')}">${p1.badge}</span></strong>
+            <strong class="font-pixel">${p1.name} <span class="badge ${importanceClass('ESSENCIAL')}">${p1.badge}</span></strong>
             <span>Posição: ${escapeHtml(p1Pos.item.title)}</span>
           </div>
         </div>
@@ -53,14 +54,14 @@ export function renderTracksPage(): string {
         ${
           coopState.enabled
             ? `
-          <div class="coop-vs">⚡ VS ⚡</div>
+          <div class="coop-vs font-pixel" style="color: #f4bb65;">⚔️ VS ⚔️</div>
           <!-- Player 2 -->
           <div class="player-card">
             <div class="player-avatar-wrap p2" data-action="open-char-select" data-player="2" title="Clique para trocar de parceiro">
-              ${p2.avatarSvg}
+              ${getPixelSprite(p2.id, 32)}
             </div>
             <div class="player-info">
-              <strong>${p2.name} <span class="badge ${importanceClass('COMPLEMENTAR')}">${p2.badge}</span></strong>
+              <strong class="font-pixel">${p2.name} <span class="badge ${importanceClass('COMPLEMENTAR')}">${p2.badge}</span></strong>
               <span>Posição: ${escapeHtml(p2Pos.item.title)}</span>
             </div>
           </div>
@@ -70,10 +71,10 @@ export function renderTracksPage(): string {
       </div>
 
       <div class="coop-actions">
-        <span class="mono muted" style="font-size: 11px;">${syncStatusText}</span>
-        <button class="ghost-button" data-action="open-char-select" data-player="1">Trocar Herói</button>
-        <button class="primary-button" data-action="open-coop-modal">
-          ${coopState.enabled ? '👥 Painel da Dupla' : '👥 Jogar em Dupla'}
+        <span class="mono muted font-pixel" style="font-size: 10px;">${syncStatusText}</span>
+        <button class="pixel-btn" data-action="open-char-select" data-player="1">Trocar Herói</button>
+        <button class="pixel-btn pixel-btn--primary" data-action="open-coop-modal">
+          ${coopState.enabled ? '👥 Sala da Dupla' : '👥 Jogar em Dupla'}
         </button>
       </div>
     </div>
@@ -81,15 +82,15 @@ export function renderTracksPage(): string {
 
   // Render narrative tracks along the trail
   const trailHtml = tracks
-    .map((track) => renderTrackSection(track, p1Pos.item.id, p2Pos.item.id, p1.badge, p2.badge))
+    .map((track) => renderTrackSection(track, p1Pos.item.id, p2Pos.item.id, p1.id, p1.name, p2.id, p2.name))
     .join('');
 
   return `
     <div class="trail-container">
       <div class="trail-header">
-        <div class="eyebrow">Caminho da Missão / Trilha Viva</div>
-        <h1>A Trilha Marvel</h1>
-        <p class="lede">Percorra o multiverso com seu herói escolhido. Cada título concluído acende o circuito da jornada rumo ao Juízo Final.</p>
+        <div class="eyebrow font-pixel">Caminho da Missão / Trilha 8-Bit</div>
+        <h1 class="font-pixel" style="letter-spacing: -0.02em;">A Trilha Marvel</h1>
+        <p class="lede">Percorra o multiverso com seu herói pixelado em formato RPG retrô. Cada produção concluída acende o circuito da jornada rumo ao Juízo Final.</p>
       </div>
 
       ${coopBannerHtml}
@@ -105,8 +106,10 @@ function renderTrackSection(
   track: Track,
   p1CurrentId: string,
   p2CurrentId: string,
-  p1Badge: string,
-  p2Badge: string
+  p1CharId: string,
+  p1Name: string,
+  p2CharId: string,
+  p2Name: string
 ): string {
   const stats = getTrackStats(track.id);
 
@@ -118,13 +121,31 @@ function renderTrackSection(
 
       return `
         <article class="trail-node ${p.status}" data-item-id="${item.id}">
-          <!-- Player Tokens if standing on this node -->
+          <!-- 8-Bit Walking Sprites along the path -->
           ${
             isP1Here || isP2Here
               ? `
-            <div class="player-token-anchor">
-              ${isP1Here ? `<div class="player-token p1" title="Seu herói está aqui">${p1Badge}</div>` : ''}
-              ${isP2Here ? `<div class="player-token p2" title="Seu parceiro está aqui">${p2Badge}</div>` : ''}
+            <div class="pixel-walker-tag">
+              ${
+                isP1Here
+                  ? `
+                <div style="display: flex; align-items: center; gap: 4px;" title="${p1Name} está aqui!">
+                  ${getPixelSprite(p1CharId, 28)}
+                  <span class="char-name-bubble">${p1Name}</span>
+                </div>
+              `
+                  : ''
+              }
+              ${
+                isP2Here
+                  ? `
+                <div style="display: flex; align-items: center; gap: 4px;" title="${p2Name} está aqui!">
+                  ${getPixelSprite(p2CharId, 28)}
+                  <span class="char-name-bubble" style="color: #72a6ff;">${p2Name}</span>
+                </div>
+              `
+                  : ''
+              }
             </div>
           `
               : ''
@@ -155,7 +176,7 @@ function renderTrackSection(
               data-id="${item.id}"
               data-status="watched"
               aria-label="Marcar ${escapeHtml(item.title)} como assistido"
-              title="${p.status === 'watched' ? 'Clique para desmarcar' : 'Marcar como assistido'}"
+              title="${p.status === 'watched' ? 'Clique para desmarcar' : 'Marcar como assistido (+100 XP)'}"
             >✓</button>
             <button
               class="small-button ${p.status === 'skipped' ? 'selected' : ''}"
@@ -173,7 +194,7 @@ function renderTrackSection(
 
   return `
     <section class="trail-track-section">
-      <div class="trail-track-badge">
+      <div class="trail-track-badge font-pixel">
         <span>TRILHA ${track.number}</span> — <span>${track.name}</span> (${track.period}) · ${stats.watched}/${stats.total} CONCLUÍDOS
       </div>
       <div class="trail-nodes-wrapper">
