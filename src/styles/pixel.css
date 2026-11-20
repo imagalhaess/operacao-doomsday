@@ -243,6 +243,33 @@
   color: #ecfeff;
 }
 
+.watch-now-action { margin-top: 16px; }
+.watch-hint, .watch-unavailable {
+  color: var(--soft);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  white-space: normal;
+}
+.watch-hint { margin: 8px 0 0; }
+.watch-unavailable { align-self: center; }
+
+@media (hover: hover) and (pointer: fine) {
+  .app-shell { --mcu-default-cursor: url('/cursors/arc-pointer-classic.svg') 2 1; --mcu-action-cursor: url('/cursors/repulsor-hand-classic.svg') 14 3; cursor: var(--mcu-default-cursor), auto; }
+  .theme-8bit { --mcu-default-cursor: url('/cursors/arc-pointer.svg') 2 1; --mcu-action-cursor: url('/cursors/repulsor-hand.svg') 14 3; }
+  .app-shell :is(button, a[href], select, input[type="checkbox"], input[type="radio"],
+  [role="button"], [data-action]:not([data-action="backdrop-click"])) {
+    cursor: var(--mcu-action-cursor), pointer !important;
+  }
+  .app-shell :is(input:not([type="checkbox"]):not([type="radio"]), textarea, [contenteditable="true"]) { cursor: text; }
+  .app-shell :is(:disabled, [aria-disabled="true"]) { cursor: not-allowed !important; }
+  .app-shell[data-custom-cursor], .app-shell[data-custom-cursor] * { cursor: none !important; }
+}
+.mcu-cursor-layer { position: fixed; inset: 0; z-index: 10000; pointer-events: none; overflow: hidden; }
+.mcu-cursor { position: absolute; top: 0; left: 0; pointer-events: none; }
+.theme-8bit .mcu-cursor { image-rendering: pixelated; }
+.mcu-cursor[hidden] { display: none; }
+
 /* Active watched status: Reactor / Shield glowing green/cyan */
 .pixel-action-btn.active-watched {
   background: #022c22 !important;

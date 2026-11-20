@@ -27,6 +27,8 @@ import { TODAY } from './utils';
 import type { Status } from './data/types';
 
 import { renderShell } from './components/shell';
+import { initPosterFeedback } from './components/poster';
+import { initMcuCursor } from './utils/cursor';
 import { renderDashboard } from './components/dashboard';
 import { renderMarathon } from './components/marathon';
 import { renderTracksPage } from './components/tracks';
@@ -39,7 +41,7 @@ import { showToast } from './components/toast';
 
 import { initEasterEggs, checkMilestones } from './easter-eggs';
 import { triggerWatchedEffect } from './easter-eggs/watched-effect';
-import { toggleSound, playUndoSound } from './utils/audio';
+import { initAudioFeedback, toggleSound, playUndoSound } from './utils/audio';
 
 // ─── Modal State ────────────────────────────────────────────
 
@@ -62,6 +64,9 @@ export function render(): void {
   const appEl = document.getElementById('app');
   if (!appEl) return;
 
+  const isTrail = ui.route === '/trilhas';
+  const favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+  if (favicon) favicon.setAttribute('href', isTrail ? '/icon-8bit.svg' : '/icon.svg');
   appEl.innerHTML = renderShell(currentPage());
 
   const overlay = document.getElementById('overlay');
@@ -90,7 +95,7 @@ function exportBackup(): void {
   link.download = `operacao-doomsday-backup-${TODAY}.json`;
   link.click();
   URL.revokeObjectURL(url);
-  showToast('Backup exportado com sucesso.', 'success');
+  showToast('Arquivo de progresso baixado. Guarde-o para restaurar seus dados depois.', 'success');
 }
 
 function importBackup(file: File): void {
@@ -98,11 +103,11 @@ function importBackup(file: File): void {
   reader.onload = () => {
     const success = restoreFromBackup(reader.result as string);
     if (success) {
-      showToast('Backup importado com sucesso.', 'success');
+      showToast('Progresso restaurado a partir do arquivo.', 'success');
       broadcastSync();
       render();
     } else {
-      showToast('Arquivo de backup inválido.', 'warn');
+      showToast('Não foi possível restaurar. Escolha um arquivo de progresso salvo por este aplicativo.', 'warn');
     }
   };
   reader.readAsText(file);
@@ -174,7 +179,7 @@ document.addEventListener('click', (event) => {
 
   if (action === 'toggle-sound') {
     const on = toggleSound();
-    showToast(on ? 'Áudio Chiptune 8-Bit Ativado! 🔊' : 'Áudio Mutado. 🔇', 'info');
+    showToast(on ? 'Som 8-bit ativado: passe o mouse ou clique nos botões. 🔊' : 'Efeitos sonoros desativados. 🔇', 'info');
     render();
     return;
   }
@@ -398,5 +403,13 @@ if ('serviceWorker' in navigator && window.location.protocol.startsWith('http'))
   });
 }
 
+window.addEventListener('doomsday:audio-error', () => {
+  render();
+  showToast('Não foi possível ativar o som. Verifique a permissão de áudio deste site e tente novamente.', 'warn');
+});
+
+initPosterFeedback();
+initAudioFeedback();
+initMcuCursor();
 initEasterEggs();
 render();

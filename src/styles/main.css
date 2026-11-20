@@ -58,31 +58,20 @@ a { color: inherit; }
 
 .topbar {
   position: sticky; top: 0; z-index: 10;
-  height: 72px;
+  min-height: 96px; height: auto;
   border-bottom: 1px solid var(--line);
   background: rgba(8, 11, 17, 0.86);
   backdrop-filter: blur(18px);
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 28px;
+  padding: 12px 28px;
 }
 
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .brand-mark {
   flex-shrink: 0;
-  width: 36px; height: 36px;
-  border: 2px solid var(--red); border-radius: 50%;
-  position: relative;
-  box-shadow: 0 0 24px rgba(229, 72, 77, 0.24);
+  width: 40px; height: 40px;
 }
-.brand-mark::before {
-  content: ""; position: absolute; inset: 7px;
-  border: 1px dashed var(--gold); border-radius: 50%;
-}
-.brand-mark::after {
-  content: ""; position: absolute; top: 16px; left: 0;
-  width: 15px; height: 2px; background: var(--red);
-  transform: rotate(-25deg); transform-origin: left;
-}
+.theme-8bit .brand-mark { image-rendering: pixelated; }
 .brand-name { display: block; font-weight: 800; letter-spacing: 0.06em; font-size: 14px; }
 .brand-sub {
   display: block;
@@ -90,7 +79,10 @@ a { color: inherit; }
   font-family: var(--arcade-font);
   font-size: 10px; letter-spacing: 0.12em; margin-top: 2px;
 }
-.top-actions { display: flex; align-items: center; gap: 12px; }
+.top-actions { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.backup-controls { display: grid; gap: 6px; max-width: 420px; }
+.backup-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.backup-help { color: var(--soft); font-size: 10px; line-height: 1.5; }
 .mission-status { display: flex; align-items: center; gap: 8px; color: var(--soft); font-size: 12px; }
 .pulse {
   width: 7px; height: 7px; border-radius: 50%;
@@ -119,9 +111,9 @@ a { color: inherit; }
 
 .sidebar {
   border-right: 1px solid var(--line);
-  min-height: calc(100vh - 72px);
+  min-height: calc(100vh - 96px);
   padding: 28px 16px;
-  position: sticky; top: 72px; align-self: start;
+  position: sticky; top: 96px; align-self: start;
 }
 .nav-label {
   color: var(--muted);
@@ -555,8 +547,10 @@ textarea { min-height: 105px; padding: 12px; resize: vertical; line-height: 1.5;
   .brand { width: 100%; }
   .brand-name { font-size: 12px; }
   .brand-sub { font-size: 8px; }
-  .top-actions { width: 100%; }
-  .top-actions .ghost-button { flex: 1; font-size: 12px; }
+  .top-actions { width: 100%; flex-wrap: wrap; }
+  .backup-controls { width: 100%; max-width: none; }
+  .backup-buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .backup-buttons .pixel-action-btn { justify-content: center; min-height: 44px; white-space: normal; text-align: center; }
   .pixel-hud-bar { gap: 12px; }
   .hud-xp-track { width: 55px; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }

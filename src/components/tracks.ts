@@ -10,6 +10,7 @@ import {
 import { getTrailIcon } from './trail-icons';
 import { getPixelSprite } from '../data/pixel-sprites';
 import { renderMcuIcon } from './mcu-icons';
+import { renderWatchNow } from './watch-now';
 import { importanceClass, escapeHtml } from '../utils';
 import type { Track } from '../data/types';
 
@@ -203,6 +204,7 @@ function renderTrackSection(
               ${renderMcuIcon('eye', 14)}
               <span>Li o resumo</span>
             </button>
+            ${renderWatchNow(item)}
           </div>
         </article>
       `;

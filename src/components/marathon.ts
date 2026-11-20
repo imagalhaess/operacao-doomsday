@@ -1,5 +1,5 @@
 import { allItems, tracks } from '../data/tracks';
-import { getDisneyPlusLink } from '../data/links';
+import { renderWatchNow } from './watch-now';
 import { getProgress } from '../state/store';
 import { ui } from '../state/ui';
 import { statusLabel, importanceClass, escapeHtml, formatDate } from '../utils';
@@ -57,16 +57,7 @@ export function renderTitleCard(item: EnrichedItem): string {
             ${renderMcuIcon('eye', 14)}
             <span>Li o resumo</span>
           </button>
-          <a
-            href="${getDisneyPlusLink(item)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="pixel-action-btn pixel-action-btn--disney"
-            title="Abrir ${escapeHtml(item.title)} no Disney+"
-          >
-            <span class="mcu-pixel-icon" aria-hidden="true">▶</span>
-            <span>Assistir no Disney+</span>
-          </a>
+          ${renderWatchNow(item)}
         </div>
       </div>
     </article>

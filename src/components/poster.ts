@@ -1,4 +1,4 @@
-import { initials } from '../utils';
+import { escapeHtml, initials } from '../utils';
 import type { TrackItem } from '../data/types';
 
 // Curated poster paths from TMDB for official Marvel releases
@@ -51,30 +51,32 @@ const TMDB_POSTERS: Record<string, string> = {
 };
 
 export function renderPoster(item: TrackItem): string {
-  const posterUrl = TMDB_POSTERS[item.id];
-  const itemInitials = initials(item.title);
-
-  if (posterUrl) {
-    return `
-      <div class="poster poster--image">
-        <img
-          src="${posterUrl}"
-          alt="Poster oficial de ${item.title}"
-          loading="lazy"
-          onerror="this.parentElement.classList.remove('poster--image'); this.remove();"
-        />
-        <div class="poster-overlay">
-          <span class="poster-meta">${item.year}<br>${item.type.toUpperCase()}</span>
-        </div>
-      </div>
-    `;
-  }
-
+  const posterUrl = Object.hasOwn(TMDB_POSTERS, item.id) ? TMDB_POSTERS[item.id] : null;
   return `
     <div class="poster">
-      <span class="initials">${itemInitials}</span>
-      <span class="poster-meta">${item.year}<br>${item.type.toUpperCase()}</span>
+      <span class="initials" aria-hidden="true">${escapeHtml(initials(item.title))}</span>
+      ${posterUrl ? `
+        <img data-poster src="${posterUrl}" alt="" loading="lazy" decoding="async">
+      ` : ''}
+      <span class="poster-meta">${item.year}<br>${escapeHtml(item.type.toUpperCase())}</span>
     </div>
   `;
+}
+
+export function initPosterFeedback(): void {
+  document.addEventListener('load', (event) => {
+    const image = event.target;
+    if (image instanceof HTMLImageElement && image.matches('[data-poster]') && image.naturalWidth > 0) {
+      image.closest('.poster')?.classList.add('poster--loaded');
+    }
+  }, true);
+  document.addEventListener('error', (event) => {
+    const image = event.target;
+    if (!(image instanceof HTMLImageElement) || !image.matches('[data-poster]')) return;
+    const poster = image.closest('.poster');
+    poster?.classList.remove('poster--loaded');
+    poster?.setAttribute('title', 'Pôster indisponível. Exibindo as iniciais do título.');
+    image.remove();
+  }, true);
 }
 

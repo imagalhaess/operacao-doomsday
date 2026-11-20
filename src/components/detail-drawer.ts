@@ -1,6 +1,7 @@
 import { getProgress } from '../state/store';
 import { summaryFor } from '../data/summaries';
-import { videoLinks, officialLinks, officialChannel, getDisneyPlusLink } from '../data/links';
+import { videoLinks, officialLinks, officialChannel } from '../data/links';
+import { renderWatchNow } from './watch-now';
 import { importanceClass, escapeHtml } from '../utils';
 import type { EnrichedItem, VideoLink } from '../data/types';
 
@@ -69,17 +70,10 @@ export function renderDetailDrawer(item: EnrichedItem): string {
       )
       .join('')}
           </div>
-          <a
-            href="${getDisneyPlusLink(item)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="pixel-action-btn pixel-action-btn--disney"
-            style="margin-top: 16px;"
-            title="Abrir ${escapeHtml(item.title)} no Disney+"
-          >
-            <span class="mcu-pixel-icon" aria-hidden="true">▶</span>
-            <span>Assistir no Disney+</span>
-          </a>
+          <div class="watch-now-action">
+            ${renderWatchNow(item)}
+            <p class="watch-hint">Abre a página do título no Disney+. Login e assinatura podem ser necessários; disponibilidade varia por região. Nas séries, selecione a temporada no Disney+.</p>
+          </div>
           <label class="mono" style="display:block; margin-top:16px; color:var(--muted)">
             DATA EM QUE ASSISTIU
             <input class="field" style="margin-top:7px" type="date" data-date-for="${item.id}" value="${p.watchedAt || ''}">
