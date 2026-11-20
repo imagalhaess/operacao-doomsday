@@ -8,14 +8,18 @@ Uma Single Page Application (SPA) progressiva (PWA), rápida, offline-first e co
 
 ## ✨ Recursos
 
-- **8 Trilhas Narrativas**: Do nascimento do MCU (2008) até a Colisão de Universos (2026), incluindo o legado mutante da Fox e variantes do Aranha e Quarteto Fantástico.
+- **Trilha Visual & Caminho da Missão**: Mapa visual e dinâmico conectando as 8 trilhas narrativas com conduítes energéticos e emblemas animados dedicados para cada filme (Reator Arc, Escudo, Mjolnir, Olho de Agamotto, Garras de Vibranium, Teia, etc.).
+- **Gamificação & Seleção de Heróis**: Escolha seu personagem (Tony Stark, Steve Rogers, Thor, Peter Parker, Wanda, Loki, Deadpool, Wolverine, Doom) para percorrer a trilha como avatar ativo.
+- **Maratona em Dupla (Live P2P Sync)**: Conecte-se em tempo real com seu parceiro via WebRTC descentralizado por código de sala (sem cadastro nem servidor intermediário). Os dois acompanham a posição um do outro na trilha com tokens visuais e comparativo de distância.
+- **Ações Rápidas Responsivas & Desfazer (Toggle)**: Clique em assistido ou conhecido por resumo com alternância e desfazer imediato (revertendo para pendente com um toque).
+- **Feedback Tátil HUD**: Pulso de energia Arc Reactor e varredura holográfica nos cards ao registrar filmes, sem sobrecarregar a tela.
 - **Dossiês Operacionais**: Resumo para caso não queira assistir, pontos cruciais a lembrar, conexões imediatas e links oficiais verificados.
 - **PWA & Offline-First**: Instale como aplicativo nativo no celular ou desktop; funciona 100% offline via Service Worker.
 - **Posters Oficiais TMDB**: Identificação visual rápida de cada título com suporte a fallback gráfico.
 - **Sistema de Backup & Restauração**: Exporte e importe seu progresso a qualquer momento via JSON sem dependência de contas ou servidores de terceiros.
 - **Marvel Wrapped**: Relatório contextual para cada trilha concluída, destacando sua preparação para o próximo arco narrativo.
 - **Guia de Conceitos**: Glossário interativo (Incursões, AVT, Joias do Infinito, Variantes, etc.) com links cruzados para os filmes onde são explorados.
-- **Easter Eggs Temáticos**: Animações temáticas sob marcos de progresso (Thanos Snap nos 50%, Spider-Web no botão assistido, Mjolnir Thunder ao fechar trilha e código Konami).
+- **Easter Eggs Temáticos**: Animações temáticas sob marcos de progresso (Thanos Snap nos 50%, Mjolnir Thunder ao fechar trilha, intervenções de Deadpool e código Konami).
 
 ---
 
