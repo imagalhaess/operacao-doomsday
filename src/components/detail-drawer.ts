@@ -31,14 +31,14 @@ export function renderDetailDrawer(item: EnrichedItem): string {
   const videos = videosFor(item);
 
   const statusButtons = [
-    ['watched', 'Assistido'],
-    ['skipped', 'Conhecido por resumo'],
-    ['partial', 'Parcial'],
-    ['pending', 'Pendente']
+    ['watched', '⚡ Já assisti', 'Marcar que você assistiu à produção por completo (clique novamente para desmarcar)'],
+    ['skipped', '👁️ Já sei a história', 'Você já conhece a trama por resumo ou wiki (clique novamente para desmarcar)'],
+    ['partial', '⏳ Vi uma parte', 'Começou a assistir mas ainda não concluiu'],
+    ['pending', '○ Não assisti (pendente)', 'Ainda não assistiu nem conhece a história']
   ] as const;
 
   return `
-    <div class="drawer-backdrop" data-action="close-detail">
+    <div class="drawer-backdrop" data-action="backdrop-click">
       <aside class="drawer" role="dialog" aria-modal="true" aria-label="Dossiê de ${escapeHtml(item.title)}">
         <div class="drawer-head">
           <div>
@@ -48,7 +48,7 @@ export function renderDetailDrawer(item: EnrichedItem): string {
               ${item.original} · ${item.type} · <span class="badge ${importanceClass(item.importance)}">${item.importance}</span>
             </div>
           </div>
-          <button class="icon-button" data-action="close-detail" aria-label="Fechar dossiê">×</button>
+          <button class="icon-button" data-action="close-detail" aria-label="Fechar dossiê" title="Fechar (Esc)">✕</button>
         </div>
 
         <div class="drawer-section">
@@ -56,12 +56,13 @@ export function renderDetailDrawer(item: EnrichedItem): string {
           <div class="status-actions">
             ${statusButtons
               .map(
-                ([value, label]) => `
+                ([value, label, hint]) => `
               <button
                 class="status-action ${p.status === value ? 'active' : ''}"
                 data-action="status"
                 data-id="${item.id}"
                 data-status="${value}"
+                title="${p.status === value ? 'Clique novamente para desmarcar e voltar para pendente' : hint}"
               >${label}</button>
             `
               )

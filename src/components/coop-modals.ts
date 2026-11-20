@@ -18,33 +18,34 @@ export function renderCharSelectModal(targetPlayer: '1' | '2'): string {
         data-action="select-character"
         data-player="${targetPlayer}"
         data-char-id="${char.id}"
+        style="cursor: pointer;"
       >
         <div class="char-card-top">
-          <div style="width: 38px; height: 38px; display: grid; place-items: center; background: #080b11; border-radius: 6px; border: 1px solid #334155;">
+          <div style="width: 38px; height: 38px; display: grid; place-items: center; background: #080b11; border-radius: 6px; border: 1px solid #334155; pointer-events: none;">
             ${getPixelSprite(char.id, 32)}
           </div>
-          <div>
+          <div style="pointer-events: none;">
             <h4 class="font-pixel" style="font-size: 12px; margin: 0 0 2px;">${char.name}</h4>
             <span style="font-size: 11px; color: var(--muted);">${char.alias}</span>
           </div>
         </div>
-        <div style="color: #f4bb65; font-size: 10px; margin: 4px 0;">
+        <div style="color: #f4bb65; font-size: 10px; margin: 4px 0; pointer-events: none;">
           PODER: ${'★'.repeat(char.powerLevel)}
         </div>
-        <p style="font-size: 11px; color: var(--soft); margin: 0;">"${escapeHtml(char.quote)}"</p>
+        <p style="font-size: 11px; color: var(--soft); margin: 0; pointer-events: none;">"${escapeHtml(char.quote)}"</p>
       </div>
     `;
   };
 
   return `
-    <div class="char-select-modal" data-action="close-modal">
-      <div class="char-select-dialog pixel-box" onclick="event.stopPropagation()">
+    <div class="char-select-modal" data-action="backdrop-click">
+      <div class="char-select-dialog pixel-box">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
           <div>
             <div class="eyebrow font-pixel">Superheroes & Hypervillains / 8-Bit Roster</div>
             <h2 class="font-pixel" style="font-size: 20px; margin: 6px 0;">${title}</h2>
           </div>
-          <button class="icon-button" data-action="close-modal">×</button>
+          <button class="pixel-btn" data-action="close-modal" type="button" title="Fechar (Esc)" style="padding: 4px 10px; font-size: 14px;">✕</button>
         </div>
 
         <div style="margin-bottom: 18px;">
@@ -74,15 +75,15 @@ export function renderCoopModal(): string {
   const roomCode = coopState.roomId || '';
 
   return `
-    <div class="char-select-modal" data-action="close-modal">
-      <div class="char-select-dialog pixel-box" onclick="event.stopPropagation()">
+    <div class="char-select-modal" data-action="backdrop-click">
+      <div class="char-select-dialog pixel-box">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
           <div>
             <div class="eyebrow font-pixel">Modo Multiverso Conectado</div>
             <h2 class="font-pixel" style="font-size: 20px; margin: 6px 0;">Maratona em Dupla</h2>
             <p class="lede" style="font-size: 13px;">Compartilhe a trilha com um amigo ou parceiro. Vocês verão os avatares um do outro avançando em tempo real.</p>
           </div>
-          <button class="icon-button" data-action="close-modal">×</button>
+          <button class="pixel-btn" data-action="close-modal" type="button" title="Fechar (Esc)" style="padding: 4px 10px; font-size: 14px;">✕</button>
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 20px;">

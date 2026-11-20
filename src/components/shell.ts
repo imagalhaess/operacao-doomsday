@@ -1,6 +1,8 @@
 import { ui } from '../state/ui';
 import { getStats } from '../state/stats';
 import { isSoundEnabled } from '../utils/audio';
+import { getP1Character } from '../state/coop';
+import { getPixelSprite } from '../data/pixel-sprites';
 
 interface NavItem {
   href: string;
@@ -23,6 +25,7 @@ export function renderShell(content: string): string {
   const level = Math.floor(stats.watched / 5) + 1;
   const xpInLevel = (stats.watched % 5) * 20; // 0 to 100%
   const soundOn = isSoundEnabled();
+  const p1 = getP1Character();
 
   const navHtml = NAV_ITEMS.map(
     ({ href, icon, label }) => `
@@ -45,6 +48,15 @@ export function renderShell(content: string): string {
 
         <!-- Retro 8-Bit Arcade HUD -->
         <div class="pixel-hud-bar">
+          <button
+            class="hud-hero-btn"
+            data-action="open-char-select"
+            data-player="1"
+            title="Herói atual: ${p1.name} (${p1.alias}) — Clique para trocar"
+          >
+            ${getPixelSprite(p1.id, 20)}
+            <span class="hud-hero-name font-pixel">${p1.name}</span>
+          </button>
           <div class="hud-item" title="Seu Nível de Conclusão Marvel">
             <span class="hud-tag">LVL ${level < 10 ? '0' + level : level}</span>
             <div class="hud-xp-track" title="${xpInLevel}% para o próximo nível">

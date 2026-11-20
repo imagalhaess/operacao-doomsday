@@ -3,6 +3,7 @@ import { getProgress } from '../state/store';
 import { ui } from '../state/ui';
 import { statusLabel, importanceClass, escapeHtml, formatDate } from '../utils';
 import { renderPoster } from './poster';
+import { renderMcuIcon } from './mcu-icons';
 import type { EnrichedItem } from '../data/types';
 
 export function renderTitleCard(item: EnrichedItem): string {
@@ -22,23 +23,37 @@ export function renderTitleCard(item: EnrichedItem): string {
           ${statusLabel(p.status)}${p.watchedAt ? ` · ${formatDate(p.watchedAt)}` : ''}
         </div>
         <div class="card-actions">
-          <button class="small-button" data-action="open-detail" data-id="${item.id}">Abrir dossiê</button>
           <button
-            class="small-button ${p.status === 'watched' ? 'selected' : ''}"
+            class="pixel-action-btn pixel-action-btn--dossier"
+            data-action="open-detail"
+            data-id="${item.id}"
+            title="Abrir dossiê completo (história, conexões e links)"
+          >
+            ${renderMcuIcon('dossier', 14)}
+            <span>Dossiê</span>
+          </button>
+          <button
+            class="pixel-action-btn ${p.status === 'watched' ? 'active-watched' : ''}"
             data-action="quick-status"
             data-id="${item.id}"
             data-status="watched"
             aria-label="Marcar ${escapeHtml(item.title)} como assistido"
-            title="Marcar como assistido"
-          >✓</button>
+            title="${p.status === 'watched' ? '⚡ Já assistido — clique para desmarcar' : '⚡ Marcar como assistido (+100 XP)'}"
+          >
+            ${renderMcuIcon('reactor', 14)}
+            <span>${p.status === 'watched' ? 'Assistido' : 'Assisti'}</span>
+          </button>
           <button
-            class="small-button ${p.status === 'skipped' ? 'selected' : ''}"
+            class="pixel-action-btn ${p.status === 'skipped' ? 'active-skipped' : ''}"
             data-action="quick-status"
             data-id="${item.id}"
             data-status="skipped"
-            aria-label="Marcar ${escapeHtml(item.title)} como conhecido por resumo"
-            title="Conhecido por resumo"
-          >R</button>
+            aria-label="Marcar que já sei a história de ${escapeHtml(item.title)}"
+            title="${p.status === 'skipped' ? '👁️ História conhecida — clique para desmarcar' : '👁️ Marcar que já sei a história (dispensa assistir)'}"
+          >
+            ${renderMcuIcon('eye', 14)}
+            <span>Sei a história</span>
+          </button>
         </div>
       </div>
     </article>
@@ -87,10 +102,10 @@ export function renderMarathon(): string {
       </select>
       <select data-filter="status" aria-label="Filtrar por status">
         <option value="all" ${ui.status === 'all' ? 'selected' : ''}>Todos os status</option>
-        <option value="pending" ${ui.status === 'pending' ? 'selected' : ''}>Pendentes</option>
-        <option value="watched" ${ui.status === 'watched' ? 'selected' : ''}>Assistidos</option>
-        <option value="skipped" ${ui.status === 'skipped' ? 'selected' : ''}>Por resumo</option>
-        <option value="partial" ${ui.status === 'partial' ? 'selected' : ''}>Parciais</option>
+        <option value="pending" ${ui.status === 'pending' ? 'selected' : ''}>○ Pendentes (não assistidos)</option>
+        <option value="watched" ${ui.status === 'watched' ? 'selected' : ''}>⚡ Já assistidos</option>
+        <option value="skipped" ${ui.status === 'skipped' ? 'selected' : ''}>👁️ Já sei a história</option>
+        <option value="partial" ${ui.status === 'partial' ? 'selected' : ''}>⏳ Vi uma parte</option>
       </select>
       <select data-filter="importance" aria-label="Filtrar por importância">
         <option value="all" ${ui.importance === 'all' ? 'selected' : ''}>Toda importância</option>
@@ -108,9 +123,9 @@ export function renderMarathon(): string {
     <div class="filter-summary">
       <span>${items.length} resultado${items.length === 1 ? '' : 's'} no catálogo curado</span>
       <div class="filter-pills">
-        <span class="filter-pill">✓ assistido</span>
-        <span class="filter-pill">R por resumo</span>
-        <span class="filter-pill">○ pendente</span>
+        <span class="filter-pill">⚡ Já assisti</span>
+        <span class="filter-pill">👁️ Sei a história</span>
+        <span class="filter-pill">○ Pendente</span>
       </div>
     </div>
 

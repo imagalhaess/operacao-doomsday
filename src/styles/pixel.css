@@ -85,6 +85,37 @@
   box-shadow: 1px 1px 0 #000;
 }
 
+.hud-hero-btn {
+  background: #111827;
+  border: 1px solid #374151;
+  color: #f3f4f6;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 2px 2px 0 #000;
+  transition: transform 0.1s ease, border-color 0.1s ease;
+}
+
+.hud-hero-btn:hover {
+  border-color: #f4bb65;
+  transform: translate(-1px, -1px);
+}
+
+.hud-hero-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #000;
+}
+
+.hud-hero-name {
+  font-size: 9px;
+  color: #f4bb65;
+  white-space: nowrap;
+}
+
 /* ─── 8-Bit Pixel Cards & Buttons ────────────────────────── */
 
 .pixel-box {
@@ -104,11 +135,18 @@
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #1e293b;
+  color: #f8fafc;
 }
 
 .pixel-btn:hover {
   transform: translate(-1px, -1px);
   box-shadow: 4px 4px 0 #000;
+  background: #334155;
 }
 
 .pixel-btn:active {
@@ -122,10 +160,93 @@
   border-color: #7f1d1d;
 }
 
+.pixel-btn--primary:hover {
+  background: #dc2626;
+}
+
 .pixel-btn--success {
   background: #16a34a;
   color: #fff;
   border-color: #14532d;
+}
+
+/* 8-Bit MCU Action Buttons (Dossiê, Assisti, Sei a História) */
+.mcu-pixel-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.pixel-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--pixel-font);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  padding: 6px 10px;
+  background: #0f172a;
+  color: #cbd5e1;
+  border: 2px solid #334155;
+  box-shadow: 2px 2px 0 #000;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.pixel-action-btn:hover {
+  background: #1e293b;
+  border-color: #64748b;
+  color: #f8fafc;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #000;
+}
+
+.pixel-action-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #000;
+}
+
+/* Dossier button: S.H.I.E.L.D. blue */
+.pixel-action-btn--dossier {
+  border-color: #1e40af;
+  background: #0b1528;
+  color: #93c5fd;
+}
+
+.pixel-action-btn--dossier:hover {
+  background: #172554;
+  border-color: #3b82f6;
+  color: #dbeafe;
+}
+
+/* Active "Assisti" status: Reactor / Shield glowing green/cyan */
+.pixel-action-btn.active-watched {
+  background: #022c22 !important;
+  border-color: #10b981 !important;
+  color: #6ee7b7 !important;
+  box-shadow: 2px 2px 0 #000, 0 0 10px rgba(16, 185, 129, 0.35);
+}
+
+.pixel-action-btn.active-watched:hover {
+  background: #064e3b !important;
+  border-color: #34d399 !important;
+}
+
+/* Active "Sei a história" status: Eye of Agamotto glowing amber */
+.pixel-action-btn.active-skipped {
+  background: #451a03 !important;
+  border-color: #f59e0b !important;
+  color: #fde68a !important;
+  box-shadow: 2px 2px 0 #000, 0 0 10px rgba(245, 158, 11, 0.35);
+}
+
+.pixel-action-btn.active-skipped:hover {
+  background: #78350f !important;
+  border-color: #fbbf24 !important;
 }
 
 /* ─── 8-Bit Pixel Character Sprite Animations ────────────── */

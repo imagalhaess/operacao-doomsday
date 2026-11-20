@@ -37,7 +37,7 @@ export function renderHistoryPage(): string {
   return `
     <div class="eyebrow">Registro pessoal</div>
     <h1>Meu histórico</h1>
-    <p class="lede">Tudo o que você marcou como assistido, parcial ou conhecido pelo resumo, com data e avaliação.</p>
+    <p class="lede">Tudo o que você marcou como assistido, com história conhecida ou parcial, com data e avaliação.</p>
 
     <div class="section-head">
       <div>

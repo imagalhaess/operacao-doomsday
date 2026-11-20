@@ -38,7 +38,7 @@ export function renderTrackCard(t: Track): string {
       </div>
       <p>${t.description}</p>
       ${renderProgressBar(s.percent)}
-      <div class="card-meta">${s.watched} assistidas · ${s.skipped} por resumo · ${s.total} títulos</div>
+      <div class="card-meta">${s.watched} assistidas · ${s.skipped} com história conhecida · ${s.total} títulos</div>
       <button class="small-button" data-action="open-track" data-track="${t.id}">Abrir trilha →</button>
     </article>
   `;
@@ -76,7 +76,7 @@ export function renderDashboard(): string {
     <div class="stats-grid">
       ${renderStatCard(s.total, 'produções no radar')}
       ${renderStatCard(s.watched, 'assistidas integralmente')}
-      ${renderStatCard(s.skipped, 'conhecidas por resumo')}
+      ${renderStatCard(s.skipped, 'já sabe a história')}
       ${renderStatCard(s.pending, 'pendentes')}
       ${renderStatCard(`${s.percent}%`, 'conclusão da missão', true)}
     </div>
@@ -86,7 +86,7 @@ export function renderDashboard(): string {
         <div class="eyebrow">Rota de preparação</div>
         <h2>Progresso por trilha</h2>
       </div>
-      <p>Concluir = assistir ou marcar que conhece pelo resumo.</p>
+      <p>Concluir = assistir à produção ou marcar que já sabe a história.</p>
     </div>
 
     <div class="track-grid">

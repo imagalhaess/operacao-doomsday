@@ -1,14 +1,14 @@
 export const TODAY: string = new Date().toISOString().slice(0, 10);
 
 const STATUS_LABELS: Record<string, string> = {
-  watched: 'Assistido integralmente',
-  skipped: 'Conhecido por resumo',
-  partial: 'Assistido parcialmente',
-  pending: 'Pendente',
+  watched: '⚡ Já assisti',
+  skipped: '👁️ Já sei a história',
+  partial: '⏳ Vi uma parte',
+  pending: 'Não assisti',
 };
 
 export function statusLabel(status: string): string {
-  return STATUS_LABELS[status] ?? 'Pendente';
+  return STATUS_LABELS[status] ?? 'Não assisti';
 }
 
 export function importanceClass(value: string): string {
@@ -58,4 +58,3 @@ export function daysUntilDoomsday(): number {
   );
   return diff > 0 ? diff : 0;
 }
-

@@ -21,7 +21,7 @@ export function renderWrappedPage(): string {
   const statsList = [
     ['Títulos', s.total],
     ['Assistidos', s.watched],
-    ['Por resumo', s.skipped],
+    ['História conhecida', s.skipped],
     ['Média', avg === '—' ? '—' : `${avg}/5`]
   ];
 
@@ -43,7 +43,7 @@ export function renderWrappedPage(): string {
         ${
           s.percent === 100
             ? 'Trilha concluída. O próximo capítulo já está liberado.'
-            : `${s.percent}% da trilha registrada. Complete ou conheça por resumo todos os títulos para fechar o relatório.`
+            : `${s.percent}% da trilha registrada. Complete assistindo ou conhecendo a história de todos os títulos para fechar o relatório.`
         }
       </p>
       <div class="wrapped-stats">
@@ -77,7 +77,7 @@ export function renderWrappedPage(): string {
       <div class="wrapped-side">
         <h3>Indicadores da operação</h3>
         <p><strong>${s.watched}</strong> títulos assistidos integralmente.</p>
-        <p><strong>${s.skipped}</strong> títulos conhecidos pelo resumo.</p>
+        <p><strong>${s.skipped}</strong> títulos com história já conhecida.</p>
         <p><strong>${s.pending}</strong> pendências no radar.</p>
         <button class="primary-button" style="margin-top: 14px;" data-action="navigate" data-path="/maratona">Ver títulos da maratona</button>
       </div>

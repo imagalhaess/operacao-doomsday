@@ -200,10 +200,23 @@ document.addEventListener('click', (event) => {
     return;
   }
 
-  if (action === 'close-detail' || action === 'close-modal') {
-    if (target.closest('.drawer') || target.closest('.char-select-dialog')) return;
-    ui.selectedId = null;
+  if (action === 'backdrop-click') {
+    if (target === el) {
+      activeModal = null;
+      ui.selectedId = null;
+      render();
+    }
+    return;
+  }
+
+  if (action === 'close-modal') {
     activeModal = null;
+    render();
+    return;
+  }
+
+  if (action === 'close-detail') {
+    ui.selectedId = null;
     render();
     return;
   }
@@ -217,13 +230,15 @@ document.addEventListener('click', (event) => {
 
   if (action === 'select-character') {
     const player = el.dataset.player;
-    const charId = el.dataset.charId!;
-    if (player === '2') {
-      setP2Character(charId);
-      showToast('Parceiro atualizado.', 'info');
-    } else {
-      setP1Character(charId);
-      showToast('Herói selecionado!', 'success');
+    const charId = el.dataset.charId;
+    if (charId) {
+      if (player === '2') {
+        setP2Character(charId);
+        showToast('Parceiro atualizado no multiverso! 👥', 'info');
+      } else {
+        setP1Character(charId);
+        showToast('Herói 8-Bit selecionado! 🦸', 'success');
+      }
     }
     activeModal = null;
     render();
@@ -305,12 +320,12 @@ document.addEventListener('click', (event) => {
     if (newStatus === 'watched') {
       const card = el.closest('.title-card, .trail-node') as HTMLElement | null;
       if (card) triggerWatchedEffect(card);
-      showToast('Marcado como assistido.', 'success');
+      showToast('Marcado como assistido (+100 XP)! ⚡', 'success');
     } else if (newStatus === 'skipped') {
-      showToast('Conhecido por resumo.', 'warn');
+      showToast('Marcado: já sei a história! 👁️', 'info');
     } else if (newStatus === 'pending') {
       playUndoSound();
-      showToast('Desmarcado (pendente).', 'info');
+      showToast('Desmarcado (pendente). ↺', 'info');
     } else {
       showToast('Status atualizado.', 'info');
     }
@@ -349,6 +364,17 @@ document.addEventListener('click', (event) => {
       render();
     }
     return;
+  }
+});
+
+// Keyboard Accessibility (Escape to close modals/drawer)
+window.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    if (activeModal || ui.selectedId) {
+      activeModal = null;
+      ui.selectedId = null;
+      render();
+    }
   }
 });
 

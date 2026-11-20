@@ -9,6 +9,7 @@ import {
 } from '../state/coop';
 import { getTrailIcon } from './trail-icons';
 import { getPixelSprite } from '../data/pixel-sprites';
+import { renderMcuIcon } from './mcu-icons';
 import { importanceClass, escapeHtml } from '../utils';
 import type { Track } from '../data/types';
 
@@ -169,23 +170,37 @@ function renderTrackSection(
 
           <!-- Quick Action Buttons -->
           <div class="card-actions">
-            <button class="small-button" data-action="open-detail" data-id="${item.id}">Dossiê</button>
             <button
-              class="small-button ${p.status === 'watched' ? 'selected' : ''}"
+              class="pixel-action-btn pixel-action-btn--dossier"
+              data-action="open-detail"
+              data-id="${item.id}"
+              title="Abrir dossiê completo (história, conexões e links)"
+            >
+              ${renderMcuIcon('dossier', 14)}
+              <span>Dossiê</span>
+            </button>
+            <button
+              class="pixel-action-btn ${p.status === 'watched' ? 'active-watched' : ''}"
               data-action="quick-status"
               data-id="${item.id}"
               data-status="watched"
               aria-label="Marcar ${escapeHtml(item.title)} como assistido"
-              title="${p.status === 'watched' ? 'Clique para desmarcar' : 'Marcar como assistido (+100 XP)'}"
-            >✓</button>
+              title="${p.status === 'watched' ? '⚡ Já assistido — clique para desmarcar' : '⚡ Marcar como assistido (+100 XP)'}"
+            >
+              ${renderMcuIcon('reactor', 14)}
+              <span>${p.status === 'watched' ? 'Assistido' : 'Assisti'}</span>
+            </button>
             <button
-              class="small-button ${p.status === 'skipped' ? 'selected' : ''}"
+              class="pixel-action-btn ${p.status === 'skipped' ? 'active-skipped' : ''}"
               data-action="quick-status"
               data-id="${item.id}"
               data-status="skipped"
-              aria-label="Marcar ${escapeHtml(item.title)} como conhecido por resumo"
-              title="${p.status === 'skipped' ? 'Clique para desmarcar' : 'Conhecido por resumo'}"
-            >R</button>
+              aria-label="Marcar que já sei a história de ${escapeHtml(item.title)}"
+              title="${p.status === 'skipped' ? '👁️ História conhecida — clique para desmarcar' : '👁️ Marcar que já sei a história (dispensa assistir)'}"
+            >
+              ${renderMcuIcon('eye', 14)}
+              <span>Sei a história</span>
+            </button>
           </div>
         </article>
       `;
