@@ -1,5 +1,5 @@
 import { ui } from '../state/ui';
-import { getStats } from '../state/stats';
+import { getPlayerLevel, getStats } from '../state/stats';
 import { isSoundEnabled } from '../utils/audio';
 import { getP1Character } from '../state/coop';
 import { getPixelSprite } from '../data/pixel-sprites';
@@ -24,7 +24,7 @@ export function renderShell(content: string): string {
   const path = ui.route;
   const isTrail = path === '/trilhas';
   const stats = getStats();
-  const level = Math.floor(stats.watched / 5) + 1;
+  const level = getPlayerLevel(stats.watched);
   const xpInLevel = (stats.watched % 5) * 20; // 0 to 100%
   const soundOn = isSoundEnabled();
   const p1 = getP1Character();

@@ -59,7 +59,10 @@ async function loadAudio({ enabled = false, rejectResume = false } = {}) {
     }
     createOscillator() {
       const oscillator = {
-        frequency: { setValueAtTime() {}, exponentialRampToValueAtTime() {} },
+        frequency: {
+          setValueAtTime(value) { oscillator.pitch = value; },
+          exponentialRampToValueAtTime() {},
+        },
         connect() {},
         disconnect() {},
         start(time) { this.started = time; },
@@ -84,6 +87,7 @@ test('effects stay silent before opt-in and before the browser unlocking gesture
     const { audio, contexts } = await loadAudio({ enabled });
     audio.playHoverSound();
     audio.playClickSound();
+    audio.playLevelUpSound();
     await setImmediate();
     assert.equal(contexts.length, 0);
   }
@@ -111,6 +115,7 @@ test('enabling sound waits for resume before scheduling audible effects', async 
 test('muting silences the master output immediately and cancels pending effects', async () => {
   const { audio, contexts, releaseResume, saved } = await loadAudio();
   audio.toggleSound();
+  audio.playLevelUpSound();
   audio.toggleSound();
   assert.equal(contexts[0].gains[0].values.at(-1), 0);
   releaseResume();
@@ -118,9 +123,30 @@ test('muting silences the master output immediately and cancels pending effects'
   assert.equal(contexts[0].oscillators.length, 0);
   audio.playHoverSound();
   audio.playClickSound();
+  audio.playLevelUpSound();
   await setImmediate();
   assert.equal(contexts[0].oscillators.length, 0);
   assert.equal(saved.get('op-doomsday:sound-enabled'), 'false');
+});
+
+test('level-up fanfare waits for audio activation and schedules a short ascending cue with a final chord', async () => {
+  const { audio, contexts, releaseResume } = await loadAudio();
+  audio.toggleSound();
+  audio.playLevelUpSound();
+  assert.equal(contexts[0].oscillators.length, 0);
+  releaseResume();
+  await setImmediate();
+  const notes = contexts[0].oscillators.slice(2);
+  assert.ok(notes.length > 4);
+  for (let index = 1; index < 5; index++) assert.ok(notes[index].pitch > notes[index - 1].pitch);
+  assert.ok(notes[1].started > notes[0].started);
+  assert.ok(notes[2].started > notes[1].started);
+  assert.equal(notes.at(-1).started, notes.at(-2).started);
+  assert.equal(notes.at(-2).started, notes.at(-3).started);
+  assert.ok(notes.at(-1).stopped > notes.at(-1).started + 0.2);
+  assert.ok(Math.max(...notes.map(note => note.stopped)) - notes[0].started < 1.5);
+  audio.toggleSound();
+  assert.equal(contexts[0].gains[0].values.at(-1), 0);
 });
 
 test('blocked audio reports an error instead of leaving a false sound-on state', async () => {

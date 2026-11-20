@@ -10,6 +10,7 @@ import {
   createBackupBlob,
   restoreFromBackup
 } from './state/store';
+import { getPlayerLevel } from './state/stats';
 import {
   coopState,
   setP1Character,
@@ -41,7 +42,7 @@ import { showToast } from './components/toast';
 
 import { initEasterEggs, checkMilestones } from './easter-eggs';
 import { triggerWatchedEffect } from './easter-eggs/watched-effect';
-import { initAudioFeedback, toggleSound, playUndoSound } from './utils/audio';
+import { initAudioFeedback, toggleSound, playUndoSound, playLevelUpSound } from './utils/audio';
 
 // ─── Modal State ────────────────────────────────────────────
 
@@ -310,6 +311,7 @@ document.addEventListener('click', (event) => {
     const id = el.dataset.id!;
     const requestedStatus = el.dataset.status as Status;
     const current = getProgress(id);
+    const previousLevel = getPlayerLevel();
 
     // TOGGLE: If already has this status, revert back to 'pending'!
     const newStatus: Status = current.status === requestedStatus ? 'pending' : requestedStatus;
@@ -319,6 +321,10 @@ document.addEventListener('click', (event) => {
       watchedAt:
         newStatus === 'watched' ? (current.watchedAt || TODAY) : newStatus === 'pending' ? '' : current.watchedAt
     });
+
+    const level = getPlayerLevel();
+    const leveledUp = level > previousLevel;
+    if (leveledUp) playLevelUpSound();
 
     broadcastSync();
 
@@ -339,6 +345,7 @@ document.addEventListener('click', (event) => {
     checkMilestones(item?.trackId);
 
     render();
+    if (leveledUp) showToast(`Nível ${level} desbloqueado (+100 XP)! ⚡`, 'success');
     return;
   }
 
