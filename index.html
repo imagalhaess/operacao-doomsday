@@ -3,18 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0d111a" />
-    <meta name="description" content="Operação Doomsday — painel pessoal para sua maratona Marvel rumo a Avengers: Doomsday." />
-    <title>Operação Doomsday</title>
-    <link rel="icon" href="https://www.marvel.com/favicon.ico" />
+    <meta name="theme-color" content="#080b11" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Primary Meta Tags -->
+    <title>Operação Doomsday — Guia Definitivo da Maratona Marvel</title>
+    <meta name="title" content="Operação Doomsday — Guia Definitivo da Maratona Marvel" />
+    <meta name="description" content="Central de comando pessoal para organizar sua maratona rumo a Avengers: Doomsday. Trilhas narrativas, dossiês com resumos, filtros por relevância e acompanhamento de progresso." />
+
+    <!-- PWA & Mobile -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Operação Doomsday — Guia Definitivo da Maratona Marvel" />
+    <meta property="og:description" content="Central de comando pessoal para organizar sua maratona rumo a Avengers: Doomsday. Dossiês curados, resumos com spoilers e acompanhamento de progresso." />
+    <meta property="og:image" content="/icon.svg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Operação Doomsday — Guia Definitivo da Maratona Marvel" />
+    <meta property="twitter:description" content="Central de comando pessoal para organizar sua maratona rumo a Avengers: Doomsday." />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <div id="app"></div>
     <input id="backup-input" type="file" accept="application/json,.json" hidden />
-    <script type="module" src="/app.js"></script>
+    <script type="module" src="/src/app.ts"></script>
   </body>
 </html>
