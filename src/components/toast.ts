@@ -25,3 +25,4 @@ export function showToast(message: string, type: ToastType = 'info'): void {
     }, 200);
   }, 2600);
 }
+

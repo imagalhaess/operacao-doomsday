@@ -70,3 +70,4 @@ function triggerMultiversePortal(): void {
     setTimeout(() => portalModal.remove(), 300);
   });
 }
+

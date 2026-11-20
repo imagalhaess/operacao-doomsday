@@ -44,3 +44,4 @@ export function triggerHammerStrike(): void {
     }, 280);
   }
 }
+

@@ -75,3 +75,4 @@ export function triggerWebShot(targetEl: HTMLElement): void {
     }, 400);
   }, 1200);
 }
+

@@ -15,3 +15,4 @@ export const concepts: Concept[] = [
   ['Victor von Doom', 'Cientista e governante associado ao Quarteto Fantástico nos quadrinhos. Para Doomsday, a Marvel confirmou Robert Downey Jr. no papel de Doctor Doom.', ['Quarteto Fantástico: Primeiros Passos', 'Avengers: Doomsday']],
   ['Doutor Destino e o Quarteto', 'Doom é ligado ao Quarteto por rivalidade científica, política e pessoal. Essa relação torna a Primeira Família um contexto prioritário para Doomsday.', ['Quarteto Fantástico', 'Quarteto Fantástico: Primeiros Passos', 'Doomsday']]
 ];
+

@@ -134,3 +134,4 @@ npm run preview
 
 Este projeto é disponibilizado para uso pessoal sob a licença [MIT](LICENSE).
 Marcas registradas, personagens e nomes citados pertencem à Marvel Characters, Inc. e à The Walt Disney Company.
+

@@ -44,3 +44,4 @@ export function triggerThanosSnap(onComplete?: () => void): void {
     }, 300);
   });
 }
+

@@ -37,3 +37,4 @@ export function initEasterEggs(): void {
 }
 
 export { triggerWebShot, triggerHammerStrike, triggerThanosSnap };
+

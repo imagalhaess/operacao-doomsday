@@ -157,3 +157,4 @@ export function summaryFor(item: TrackItem | EnrichedItem): Summary {
     connections: `Conecta-se aos títulos da trilha “${trackName}” e ao guia de conexões.`
   };
 }
+
