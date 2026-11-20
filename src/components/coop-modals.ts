@@ -7,40 +7,44 @@ export function renderCharSelectModal(targetPlayer: '1' | '2'): string {
   const currentSelected = targetPlayer === '1' ? coopState.p1CharId : coopState.p2CharId;
   const title = targetPlayer === '1' ? 'Escolha Seu Personagem 8-Bit' : 'Escolha o Personagem do Parceiro';
 
-  const heroes = CHARACTERS.filter((c) => c.faction === 'hero');
-  const villains = CHARACTERS.filter((c) => c.faction === 'villain');
+  const villains = CHARACTERS.filter(
+    (c) => c.faction === 'villain' || (!c.faction && c.id.includes('doom'))
+  );
+  const heroes = CHARACTERS.filter((c) => !villains.includes(c));
 
   const renderCard = (char: MarvelCharacter) => {
     const isSelected = char.id === currentSelected;
     return `
-      <div
+      <button
+        type="button"
         class="char-card pixel-box ${isSelected ? 'selected' : ''}"
+        aria-pressed="${isSelected}"
         data-action="select-character"
         data-player="${targetPlayer}"
         data-char-id="${char.id}"
         style="cursor: pointer;"
       >
-        <div class="char-card-top">
-          <div style="width: 38px; height: 38px; display: grid; place-items: center; background: #080b11; border-radius: 6px; border: 1px solid #334155; pointer-events: none;">
+        <span class="char-card-top">
+          <span style="width: 38px; height: 38px; flex-shrink: 0; display: grid; place-items: center; background: #080b11; border-radius: 6px; border: 1px solid #334155; pointer-events: none;">
             ${getPixelSprite(char.id, 32)}
-          </div>
-          <div style="pointer-events: none;">
-            <h4 class="font-pixel" style="font-size: 12px; margin: 0 0 2px;">${char.name}</h4>
+          </span>
+          <span style="pointer-events: none; min-width: 0;">
+            <strong class="font-pixel" style="display: block; overflow-wrap: anywhere; font-size: 10px; margin: 0 0 2px;">${char.name}</strong>
             <span style="font-size: 11px; color: var(--muted);">${char.alias}</span>
-          </div>
-        </div>
-        <div style="color: #f4bb65; font-size: 10px; margin: 4px 0; pointer-events: none;">
+          </span>
+        </span>
+        <span style="color: #f4bb65; font-size: 10px; margin: 4px 0; pointer-events: none;">
           PODER: ${'★'.repeat(char.powerLevel)}
-        </div>
-        <p style="font-size: 11px; color: var(--soft); margin: 0; pointer-events: none;">"${escapeHtml(char.quote)}"</p>
-      </div>
+        </span>
+        <span style="font-size: 11px; color: var(--soft); margin: 0; pointer-events: none;">"${escapeHtml(char.quote)}"</span>
+      </button>
     `;
   };
 
   return `
     <div class="char-select-modal" data-action="backdrop-click">
-      <div class="char-select-dialog pixel-box">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+      <div class="char-select-dialog pixel-box" role="dialog" aria-modal="true" aria-label="${title}">
+        <div class="char-select-head">
           <div>
             <div class="eyebrow font-pixel">Superheroes & Hypervillains / 8-Bit Roster</div>
             <h2 class="font-pixel" style="font-size: 20px; margin: 6px 0;">${title}</h2>

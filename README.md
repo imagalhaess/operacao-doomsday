@@ -9,11 +9,13 @@ Uma Single Page Application (SPA) progressiva (PWA), rápida, offline-first e co
 ## ✨ Recursos
 
 - **Trilha Visual & Caminho da Missão**: Mapa visual e dinâmico conectando as 8 trilhas narrativas com conduítes energéticos e emblemas animados dedicados para cada filme (Reator Arc, Escudo, Mjolnir, Olho de Agamotto, Garras de Vibranium, Teia, etc.).
-- **Gamificação & Seleção de Heróis**: Escolha seu personagem (Tony Stark, Steve Rogers, Thor, Peter Parker, Wanda, Loki, Deadpool, Wolverine, Doom) para percorrer a trilha como avatar ativo.
+- **Gamificação & Seleção de Heróis**: Escolha entre 12 heróis e vilões em um seletor com rolagem, sprites 8-bit e token com nome flutuante na posição atual da trilha.
+- **Tipografia Retrô**: Títulos e interface em Press Start 2P/Silkscreen; textos de leitura em DM Mono.
 - **Maratona em Dupla (Live P2P Sync)**: Conecte-se em tempo real com seu parceiro via WebRTC descentralizado por código de sala (sem cadastro nem servidor intermediário). Os dois acompanham a posição um do outro na trilha com tokens visuais e comparativo de distância.
-- **Ações Rápidas Responsivas & Desfazer (Toggle)**: Clique em assistido ou conhecido por resumo com alternância e desfazer imediato (revertendo para pendente com um toque).
+- **Ações Rápidas Responsivas & Desfazer (Toggle)**: Use “Já assisti” ou “Li o resumo” nos cards e na trilha. No dossiê, também há “Vi uma parte” e “Pendente”; clicar no estado ativo reverte para pendente.
 - **Feedback Tátil HUD**: Pulso de energia Arc Reactor e varredura holográfica nos cards ao registrar filmes, sem sobrecarregar a tela.
 - **Dossiês Operacionais**: Resumo para caso não queira assistir, pontos cruciais a lembrar, conexões imediatas e links oficiais verificados.
+- **Assistir no Disney+**: Atalho nos cards da maratona e no dossiê para a busca oficial pelo título, em nova aba. Requer internet; disponibilidade e assinatura dependem do catálogo da sua região.
 - **PWA & Offline-First**: Instale como aplicativo nativo no celular ou desktop; funciona 100% offline via Service Worker.
 - **Posters Oficiais TMDB**: Identificação visual rápida de cada título com suporte a fallback gráfico.
 - **Sistema de Backup & Restauração**: Exporte e importe seu progresso a qualquer momento via JSON sem dependência de contas ou servidores de terceiros.
@@ -131,6 +133,12 @@ Os arquivos otimizados e prontos para publicação estarão no diretório `dist/
 ```bash
 npm run preview
 ```
+
+### 5. Executar Testes de Regressão
+```bash
+npm test
+```
+Verifica o seletor de personagens, os estados do dossiê, a posição na trilha e os links do Disney+ usando o runner nativo do Node.js e o Vite.
 
 ---
 

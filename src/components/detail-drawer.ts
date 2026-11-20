@@ -1,6 +1,6 @@
 import { getProgress } from '../state/store';
 import { summaryFor } from '../data/summaries';
-import { videoLinks, officialLinks, officialChannel } from '../data/links';
+import { videoLinks, officialLinks, officialChannel, getDisneyPlusLink } from '../data/links';
 import { importanceClass, escapeHtml } from '../utils';
 import type { EnrichedItem, VideoLink } from '../data/types';
 
@@ -31,10 +31,10 @@ export function renderDetailDrawer(item: EnrichedItem): string {
   const videos = videosFor(item);
 
   const statusButtons = [
-    ['watched', '⚡ Já assisti', 'Marcar que você assistiu à produção por completo (clique novamente para desmarcar)'],
-    ['skipped', '👁️ Já sei a história', 'Você já conhece a trama por resumo ou wiki (clique novamente para desmarcar)'],
-    ['partial', '⏳ Vi uma parte', 'Começou a assistir mas ainda não concluiu'],
-    ['pending', '○ Não assisti (pendente)', 'Ainda não assistiu nem conhece a história']
+    ['watched', '⚡ Já assisti', 'Marcar como assistido na íntegra (+100 XP); clique novamente para voltar a pendente'],
+    ['skipped', '👁️ Li o resumo', 'Já conhece os fatos principais pelo resumo/wiki; não precisa assistir. Clique novamente para voltar a pendente'],
+    ['partial', '⏳ Vi uma parte', 'Iniciou mas não concluiu; clique novamente para voltar a pendente'],
+    ['pending', '○ Pendente', 'Ainda não assistiu']
   ] as const;
 
   return `
@@ -58,16 +58,28 @@ export function renderDetailDrawer(item: EnrichedItem): string {
       .map(
         ([value, label, hint]) => `
               <button
-                class="status-action ${p.status === value ? 'active' : ''}"
+                class="status-action pixel-btn ${p.status === value ? 'active' : ''}"
                 data-action="status"
                 data-id="${item.id}"
                 data-status="${value}"
+                aria-pressed="${p.status === value}"
                 title="${p.status === value ? 'Clique novamente para desmarcar e voltar para pendente' : hint}"
-              >${label}</button>
+              >[ ${label} ]</button>
             `
       )
       .join('')}
           </div>
+          <a
+            href="${getDisneyPlusLink(item)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="pixel-action-btn pixel-action-btn--disney"
+            style="margin-top: 16px;"
+            title="Abrir ${escapeHtml(item.title)} no Disney+"
+          >
+            <span class="mcu-pixel-icon" aria-hidden="true">▶</span>
+            <span>Assistir no Disney+</span>
+          </a>
           <label class="mono" style="display:block; margin-top:16px; color:var(--muted)">
             DATA EM QUE ASSISTIU
             <input class="field" style="margin-top:7px" type="date" data-date-for="${item.id}" value="${p.watchedAt || ''}">

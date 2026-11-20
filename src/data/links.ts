@@ -1,4 +1,8 @@
-import type { VideoLink } from './types';
+import type { EnrichedItem, VideoLink } from './types';
+
+export function getDisneyPlusLink(item: EnrichedItem): string {
+  return `https://www.disneyplus.com/search?q=${encodeURIComponent(item.title)}`;
+}
 
 export const officialLinks: Record<string, string> = {
   doomsday: 'https://www.marvel.com/articles/movies/avengers-doomsday-teaser-trailer',

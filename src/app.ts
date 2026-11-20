@@ -322,7 +322,7 @@ document.addEventListener('click', (event) => {
       if (card) triggerWatchedEffect(card);
       showToast('Marcado como assistido (+100 XP)! ⚡', 'success');
     } else if (newStatus === 'skipped') {
-      showToast('Marcado: já sei a história! 👁️', 'info');
+      showToast('Marcado: li o resumo! 👁️', 'info');
     } else if (newStatus === 'pending') {
       playUndoSound();
       showToast('Desmarcado (pendente). ↺', 'info');

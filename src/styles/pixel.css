@@ -1,8 +1,8 @@
 /* ─── 8-Bit Pixel Game Aesthetics (Inspired by tusharsoni.com) ─── */
 
 :root {
-  --pixel-font: 'Silkscreen', 'Press Start 2P', 'DM Mono', monospace;
-  --arcade-font: 'Press Start 2P', monospace;
+  --pixel-font: 'Press Start 2P', 'Silkscreen', monospace;
+  --arcade-font: var(--pixel-font);
   --pixel-border: 3px solid #000;
   --pixel-shadow: 4px 4px 0 #000;
   --pixel-shadow-sm: 2px 2px 0 #000;
@@ -11,7 +11,8 @@
 /* 8-bit Typography Utility */
 .font-pixel {
   font-family: var(--pixel-font);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
 }
 
 .font-arcade {
@@ -170,7 +171,7 @@
   border-color: #14532d;
 }
 
-/* 8-Bit MCU Action Buttons (Dossiê, Assisti, Sei a História) */
+/* 8-Bit MCU Action Buttons */
 .mcu-pixel-icon {
   display: inline-block;
   vertical-align: middle;
@@ -184,8 +185,9 @@
   align-items: center;
   gap: 6px;
   font-family: var(--pixel-font);
-  font-size: 10px;
-  letter-spacing: 0.03em;
+  font-size: 9px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
   padding: 6px 10px;
   background: #0f172a;
   color: #cbd5e1;
@@ -195,6 +197,12 @@
   transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease, border-color 0.15s ease;
   user-select: none;
   white-space: nowrap;
+  text-decoration: none;
+}
+
+.pixel-action-btn:focus-visible, .status-action:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
 }
 
 .pixel-action-btn:hover {
@@ -223,7 +231,19 @@
   color: #dbeafe;
 }
 
-/* Active "Assisti" status: Reactor / Shield glowing green/cyan */
+.pixel-action-btn--disney {
+  background: #071b36;
+  border-color: #22d3ee;
+  color: #a5f3fc;
+}
+
+.pixel-action-btn--disney:hover {
+  background: #103453;
+  border-color: #67e8f9;
+  color: #ecfeff;
+}
+
+/* Active watched status: Reactor / Shield glowing green/cyan */
 .pixel-action-btn.active-watched {
   background: #022c22 !important;
   border-color: #10b981 !important;
@@ -236,7 +256,7 @@
   border-color: #34d399 !important;
 }
 
-/* Active "Sei a história" status: Eye of Agamotto glowing amber */
+/* Active summary status: Eye of Agamotto glowing amber */
 .pixel-action-btn.active-skipped {
   background: #451a03 !important;
   border-color: #f59e0b !important;
@@ -313,11 +333,9 @@
 }
 
 .pixel-walker-tag {
-  position: absolute;
-  left: -48px;
-  top: 50%;
-  transform: translateY(-50%);
+  grid-column: 1 / -1;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
   z-index: 20;
@@ -334,6 +352,7 @@
   font-size: 9px;
   white-space: nowrap;
   box-shadow: 2px 2px 0 #000;
+  animation: pixel-hover 1.2s steps(4, end) infinite alternate;
 }
 
 /* Floating Pixel XP Particle (+100 XP) */
