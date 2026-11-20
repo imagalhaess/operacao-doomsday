@@ -2,13 +2,13 @@ export const TODAY: string = new Date().toISOString().slice(0, 10);
 
 const STATUS_LABELS: Record<string, string> = {
   watched: '⚡ Já assisti',
-  skipped: '👁️ Já sei a história',
+  skipped: '👁️ Li o resumo',
   partial: '⏳ Vi uma parte',
-  pending: 'Não assisti',
+  pending: '○ Pendente',
 };
 
 export function statusLabel(status: string): string {
-  return STATUS_LABELS[status] ?? 'Não assisti';
+  return STATUS_LABELS[status] ?? '○ Pendente';
 }
 
 export function importanceClass(value: string): string {

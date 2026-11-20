@@ -3,6 +3,7 @@ import { getStats } from '../state/stats';
 import { isSoundEnabled } from '../utils/audio';
 import { getP1Character } from '../state/coop';
 import { getPixelSprite } from '../data/pixel-sprites';
+import { renderMcuIcon } from './mcu-icons';
 
 interface NavItem {
   href: string;
@@ -21,11 +22,24 @@ const NAV_ITEMS: NavItem[] = [
 
 export function renderShell(content: string): string {
   const path = ui.route;
+  const isTrail = path === '/trilhas';
   const stats = getStats();
   const level = Math.floor(stats.watched / 5) + 1;
   const xpInLevel = (stats.watched % 5) * 20; // 0 to 100%
   const soundOn = isSoundEnabled();
   const p1 = getP1Character();
+  const soundButton = `
+    <button
+      class="${isTrail ? 'sound-toggle-btn' : 'pixel-action-btn'}"
+      data-action="toggle-sound"
+      aria-pressed="${soundOn}"
+      aria-label="${soundOn ? 'Desativar som' : 'Ativar som'}"
+      title="${soundOn ? 'Desativar efeitos de hover, clique e conquistas' : 'Ativar efeitos de hover, clique e conquistas'}"
+    >
+      ${isTrail ? renderMcuIcon(soundOn ? 'sound-on' : 'sound-off', 14) : ''}
+      <span>${soundOn ? 'Som ligado' : 'Ativar som'}</span>
+    </button>
+  `;
 
   const navHtml = NAV_ITEMS.map(
     ({ href, icon, label }) => `
@@ -36,17 +50,17 @@ export function renderShell(content: string): string {
   ).join('');
 
   return `
-    <div class="app-shell">
+    <div class="app-shell ${isTrail ? 'theme-8bit' : 'theme-classic'}">
       <header class="topbar">
         <a class="brand" href="#/">
-          <span class="brand-mark" aria-hidden="true"></span>
+          <img class="brand-mark" src="${isTrail ? '/icon-8bit.svg' : '/icon.svg'}" width="40" height="40" alt="">
           <span>
             <span class="brand-name">OPERAÇÃO DOOMSDAY</span>
-            <span class="brand-sub">MARVEL 8-BIT QUEST / 2026</span>
+            <span class="brand-sub">${isTrail ? 'MARVEL 8-BIT QUEST' : 'CENTRAL DA MARATONA'} / 2026</span>
           </span>
         </a>
 
-        <!-- Retro 8-Bit Arcade HUD -->
+        ${isTrail ? `
         <div class="pixel-hud-bar">
           <button
             class="hud-hero-btn"
@@ -67,14 +81,19 @@ export function renderShell(content: string): string {
             <span>⭐</span>
             <span style="color:#f4bb65; font-weight:700;">${stats.watched}</span>
           </div>
-          <button class="sound-toggle-btn" data-action="toggle-sound" title="Alternar efeitos de áudio 8-bit">
-            ${soundOn ? '🔊 CHIPTUNE' : '🔇 MUTE'}
-          </button>
+          ${soundButton}
         </div>
+        ` : ''}
 
         <div class="top-actions">
-          <button class="ghost-button" data-action="import">Importar</button>
-          <button class="ghost-button" data-action="export">Exportar backup</button>
+          ${!isTrail ? soundButton : ''}
+          <div class="backup-controls" role="group" aria-label="Guardar e recuperar seu progresso" aria-describedby="backup-help">
+            <div class="backup-buttons">
+              <button class="pixel-action-btn" data-action="export" title="Baixar um arquivo com seus títulos assistidos, notas e avaliações">Salvar progresso</button>
+              <button class="pixel-action-btn" data-action="import" title="Abrir um arquivo salvo anteriormente; substitui o progresso atual">Restaurar progresso</button>
+            </div>
+            <span class="backup-help" id="backup-help">Salvar baixa um arquivo. Restaurar abre esse arquivo e substitui o progresso atual.</span>
+          </div>
         </div>
       </header>
       <div class="layout">
@@ -97,6 +116,9 @@ export function renderShell(content: string): string {
       <div id="overlay"></div>
       <div id="toast-region" aria-live="polite"></div>
       <div id="easter-egg-layer"></div>
+      <div class="mcu-cursor-layer" aria-hidden="true">
+        <img class="mcu-cursor" id="mcu-cursor" src="/cursors/arc-pointer${isTrail ? '' : '-classic'}.svg" width="32" height="32" alt="" hidden>
+      </div>
     </div>
   `;
 }

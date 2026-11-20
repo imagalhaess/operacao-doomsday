@@ -1,4 +1,5 @@
 import { allItems, tracks } from '../data/tracks';
+import { renderWatchNow } from './watch-now';
 import { getProgress } from '../state/store';
 import { ui } from '../state/ui';
 import { statusLabel, importanceClass, escapeHtml, formatDate } from '../utils';
@@ -37,23 +38,26 @@ export function renderTitleCard(item: EnrichedItem): string {
             data-action="quick-status"
             data-id="${item.id}"
             data-status="watched"
+            aria-pressed="${p.status === 'watched'}"
             aria-label="Marcar ${escapeHtml(item.title)} como assistido"
             title="${p.status === 'watched' ? '⚡ Já assistido — clique para desmarcar' : '⚡ Marcar como assistido (+100 XP)'}"
           >
             ${renderMcuIcon('reactor', 14)}
-            <span>${p.status === 'watched' ? 'Assistido' : 'Assisti'}</span>
+            <span>Já assisti</span>
           </button>
           <button
             class="pixel-action-btn ${p.status === 'skipped' ? 'active-skipped' : ''}"
             data-action="quick-status"
             data-id="${item.id}"
             data-status="skipped"
-            aria-label="Marcar que já sei a história de ${escapeHtml(item.title)}"
-            title="${p.status === 'skipped' ? '👁️ História conhecida — clique para desmarcar' : '👁️ Marcar que já sei a história (dispensa assistir)'}"
+            aria-pressed="${p.status === 'skipped'}"
+            aria-label="Marcar que li o resumo de ${escapeHtml(item.title)}"
+            title="${p.status === 'skipped' ? '👁️ Resumo lido — clique para desmarcar' : '👁️ Li o resumo (dispensa assistir)'}"
           >
             ${renderMcuIcon('eye', 14)}
-            <span>Sei a história</span>
+            <span>Li o resumo</span>
           </button>
+          ${renderWatchNow(item)}
         </div>
       </div>
     </article>
@@ -104,7 +108,7 @@ export function renderMarathon(): string {
         <option value="all" ${ui.status === 'all' ? 'selected' : ''}>Todos os status</option>
         <option value="pending" ${ui.status === 'pending' ? 'selected' : ''}>○ Pendentes (não assistidos)</option>
         <option value="watched" ${ui.status === 'watched' ? 'selected' : ''}>⚡ Já assistidos</option>
-        <option value="skipped" ${ui.status === 'skipped' ? 'selected' : ''}>👁️ Já sei a história</option>
+        <option value="skipped" ${ui.status === 'skipped' ? 'selected' : ''}>👁️ Li o resumo</option>
         <option value="partial" ${ui.status === 'partial' ? 'selected' : ''}>⏳ Vi uma parte</option>
       </select>
       <select data-filter="importance" aria-label="Filtrar por importância">
@@ -123,8 +127,8 @@ export function renderMarathon(): string {
     <div class="filter-summary">
       <span>${items.length} resultado${items.length === 1 ? '' : 's'} no catálogo curado</span>
       <div class="filter-pills">
-        <span class="filter-pill">⚡ Já assisti</span>
-        <span class="filter-pill">👁️ Sei a história</span>
+        <span class="filter-pill">⚡ Já assistidos</span>
+        <span class="filter-pill">👁️ Li o resumo</span>
         <span class="filter-pill">○ Pendente</span>
       </div>
     </div>

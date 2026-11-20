@@ -1,9 +1,14 @@
-const CACHE_NAME = 'operacao-doomsday-v2';
+const CACHE_NAME = 'operacao-doomsday-v7';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icon.svg'
+  '/icon.svg',
+  '/icon-8bit.svg',
+  '/cursors/arc-pointer.svg',
+  '/cursors/repulsor-hand.svg',
+  '/cursors/arc-pointer-classic.svg',
+  '/cursors/repulsor-hand-classic.svg'
 ];
 
 self.addEventListener('install', (event) => {
@@ -25,7 +30,7 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+  if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
   event.respondWith(
     caches.match(event.request).then((cached) => {
       const networked = fetch(event.request)
@@ -36,8 +41,8 @@ self.addEventListener('fetch', (event) => {
           }
           return response;
         })
-        .catch(() => cached);
-      return cached || networked;
+        .catch(() => cached || Response.error());
+      return event.request.mode === 'navigate' ? networked : cached || networked;
     })
   );
 });

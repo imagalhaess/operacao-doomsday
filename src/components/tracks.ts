@@ -10,6 +10,7 @@ import {
 import { getTrailIcon } from './trail-icons';
 import { getPixelSprite } from '../data/pixel-sprites';
 import { renderMcuIcon } from './mcu-icons';
+import { renderWatchNow } from './watch-now';
 import { importanceClass, escapeHtml } from '../utils';
 import type { Track } from '../data/types';
 
@@ -131,8 +132,8 @@ function renderTrackSection(
                 isP1Here
                   ? `
                 <div style="display: flex; align-items: center; gap: 4px;" title="${p1Name} está aqui!">
-                  ${getPixelSprite(p1CharId, 28)}
-                  <span class="char-name-bubble">${p1Name}</span>
+                  ${getPixelSprite(p1CharId, 32)}
+                  <span class="char-name-bubble">[ ${p1Name} ]</span>
                 </div>
               `
                   : ''
@@ -141,8 +142,8 @@ function renderTrackSection(
                 isP2Here
                   ? `
                 <div style="display: flex; align-items: center; gap: 4px;" title="${p2Name} está aqui!">
-                  ${getPixelSprite(p2CharId, 28)}
-                  <span class="char-name-bubble" style="color: #72a6ff;">${p2Name}</span>
+                  ${getPixelSprite(p2CharId, 32)}
+                  <span class="char-name-bubble" style="color: #72a6ff;">[ ${p2Name} ]</span>
                 </div>
               `
                   : ''
@@ -184,23 +185,26 @@ function renderTrackSection(
               data-action="quick-status"
               data-id="${item.id}"
               data-status="watched"
+              aria-pressed="${p.status === 'watched'}"
               aria-label="Marcar ${escapeHtml(item.title)} como assistido"
               title="${p.status === 'watched' ? '⚡ Já assistido — clique para desmarcar' : '⚡ Marcar como assistido (+100 XP)'}"
             >
               ${renderMcuIcon('reactor', 14)}
-              <span>${p.status === 'watched' ? 'Assistido' : 'Assisti'}</span>
+              <span>Já assisti</span>
             </button>
             <button
               class="pixel-action-btn ${p.status === 'skipped' ? 'active-skipped' : ''}"
               data-action="quick-status"
               data-id="${item.id}"
               data-status="skipped"
-              aria-label="Marcar que já sei a história de ${escapeHtml(item.title)}"
-              title="${p.status === 'skipped' ? '👁️ História conhecida — clique para desmarcar' : '👁️ Marcar que já sei a história (dispensa assistir)'}"
+              aria-pressed="${p.status === 'skipped'}"
+              aria-label="Marcar que li o resumo de ${escapeHtml(item.title)}"
+              title="${p.status === 'skipped' ? '👁️ Resumo lido — clique para desmarcar' : '👁️ Li o resumo (dispensa assistir)'}"
             >
               ${renderMcuIcon('eye', 14)}
-              <span>Sei a história</span>
+              <span>Li o resumo</span>
             </button>
+            ${renderWatchNow(item)}
           </div>
         </article>
       `;
