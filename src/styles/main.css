@@ -79,7 +79,7 @@ a { color: inherit; }
   font-family: var(--arcade-font);
   font-size: 10px; letter-spacing: 0.12em; margin-top: 2px;
 }
-.top-actions { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.top-actions { display: flex; align-items: flex-start; gap: 12px; min-width: 0; }
 .backup-controls { display: grid; gap: 6px; max-width: 420px; }
 .backup-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 .backup-help { color: var(--soft); font-size: 10px; line-height: 1.5; }

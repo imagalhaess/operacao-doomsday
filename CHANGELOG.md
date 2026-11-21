@@ -13,6 +13,7 @@ As datas abaixo identificam integrações; não representam versões publicadas 
 
 ### Corrigido
 
+- Alinhamento do botão de som com os botões de salvar/restaurar progresso, mantendo a explicação abaixo.
 - Concluir uma trilha agora também dispara a comemoração, mesmo sem mudar o nível de XP e mesmo quando o efeito antigo já havia sido visto.
 - Faixa de conquista visível no topo, sem depender de animação ou de um toast discreto; sobrevive à renderização da tela e pode ser fechada com Escape.
 - Títulos parcialmente assistidos não concluem uma trilha. Os títulos conhecidos por resumo contam no total de concluídos.
